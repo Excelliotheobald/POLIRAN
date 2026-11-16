@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>POLIRAN - Polisi Peduli Pengangguran</title>
+<!-- Google Fonts: Plus Jakarta Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+<!-- Tailwind CSS v3 with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Custom Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            navy: {
+              850: '#0f1e36',
+              900: '#0a1628',
+              950: '#060e1a',
+            },
+            gold: {
+              400: '#fbbf24',
+              500: '#eab308',
+              600: '#d97706',
+              accent: '#d4af37',
+            },
+            polri: '#142540',
+          },
+          boxShadow: {
+            'card-float': '0 20px 40px -15px rgba(15, 30, 54, 0.12)',
+            'nav-shadow': '0 4px 20px -2px rgba(10, 22, 40, 0.35)',
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Styles for Precise Aesthetics -->
+<style data-purpose="custom-decorations">
+    .hero-bg-overlay {
+      background: linear-gradient(90deg, #091526 0%, #0f1f38 42%, rgba(15, 31, 56, 0.88) 60%, rgba(15, 31, 56, 0.45) 80%, rgba(15, 31, 56, 0.75) 100%);
+    }
+    
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #f6d365 0%, #d4af37 50%, #f39c12 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .promo-card-bg {
+      background: radial-gradient(circle at 100% 100%, #1e3a68 0%, #0d1b32 70%);
+    }
+
+    .hero-search-shadow {
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+  </style>
+</head>
+<body class="bg-[#f8fafc] text-slate-800 font-sans antialiased overflow-x-hidden">
+<!-- BEGIN: MainHeader -->
+<header class="sticky top-0 z-50 bg-[#0f1f38]/95 backdrop-blur-md border-b border-slate-700/40 transition-all duration-200" data-purpose="site-navigation">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+<!-- Brand Logo & Identity -->
+<div class="flex items-center space-x-3.5 cursor-pointer">
+<!-- Polri Emblem Badge Placeholder -->
+<div class="w-11 h-11 rounded-full bg-gradient-to-tr from-amber-600 via-yellow-500 to-amber-300 p-0.5 shadow-md flex items-center justify-center">
+<div class="w-full h-full bg-[#0c1a2e] rounded-full flex items-center justify-center">
+<i class="fa-solid fa-shield-halved text-amber-400 text-lg"></i>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="text-xl font-extrabold tracking-wider text-white leading-none">POLIRAN</span>
+<span class="text-[11px] font-medium text-slate-300 tracking-wide mt-1">Polisi Peduli Pengangguran</span>
+</div>
+</div>
+<!-- Center Navigation Links -->
+<nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-200">
+<a class="relative text-white py-1 flex items-center space-x-1.5 transition-colors group" href="#beranda">
+<i class="fa-solid fa-house text-xs text-amber-400"></i>
+<span class="font-semibold text-white">Beranda</span>
+<span class="absolute bottom-[-16px] left-0 right-0 h-[3px] bg-amber-400 rounded-full"></span>
+</a>
+<a class="hover:text-amber-400 transition-colors" href="#lowongan">Lowongan Kerja</a>
+<a class="hover:text-amber-400 transition-colors" href="#pelatihan">Pelatihan</a>
+<a class="hover:text-amber-400 transition-colors" href="#tentang">Tentang Kami</a>
+<a class="hover:text-amber-400 transition-colors" href="#faq">FAQ</a>
+</nav>
+<!-- Right Action CTA Buttons -->
+<div class="flex items-center space-x-3.5">
+<!-- Search Icon Trigger -->
+<button aria-label="Search" class="p-2 text-slate-300 hover:text-white transition-colors rounded-full hover:bg-slate-800/60">
+<i class="fa-solid fa-magnifying-glass text-sm"></i>
+</button>
+<!-- Login Button -->
+<a class="px-5 py-2 text-xs font-semibold text-white border border-slate-400/50 rounded-full hover:bg-white/10 hover:border-white transition-all duration-150" href="#login">
+          Login
+        </a>
+<!-- Daftar Button -->
+<a class="px-5 py-2 text-xs font-semibold text-white bg-[#0b172a] hover:bg-[#07101e] border border-slate-700 rounded-full shadow-md flex items-center space-x-1.5 hover:shadow-lg transition-all duration-150" href="#daftar">
+<i class="fa-solid fa-user-plus text-[11px] text-amber-400"></i>
+<span>Daftar</span>
+</a>
+</div>
+</div>
+</header>
+<!-- END: MainHeader -->
+<main>
+<!-- BEGIN: HeroSection -->
+<section class="relative bg-[#0f1f38] text-white min-h-[580px] lg:min-h-[640px] flex items-center overflow-hidden" data-purpose="hero-banner" id="beranda">
+<!-- Background Image with Realistic Polrestabes Exterior Backdrop -->
+<div class="absolute inset-0 z-0">
+<img alt="Gedung Polrestabes POLIRAN" class="w-full h-full object-cover object-right-top lg:object-center opacity-40 mix-blend-luminosity scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFj-hbfJ7WgFNAEfmShncFU_BYBYBh5EAgba-jqibMepR2qIsPo-4pajzuF2e3RzWXPWoMPoWHIprez80vU6UADUN-oOHC-XNzfAUW7pZQFfH3IhMsB0hghWdRLw3sufL837sL18ktBUnaWhomTCN3d8UkuOBMql0FTW8UYP5502JFBbSnPI8y8o6ZYgtcDwJy9PdNXDLU0H4nKFlSFKJweKRcL_qhgVy2KNfL9ydu6TVJD2A5pjpI"/>
+<div class="absolute inset-0 hero-bg-overlay"></div>
+</div>
+<!-- Hero Content Container -->
+<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 w-full">
+<div class="max-w-2xl">
+<!-- Headline Title -->
+<h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.15] mb-2">
+<span class="gold-gradient-text tracking-wider">POLIRAN</span>
+</h1>
+<h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white mb-4">
+            Polisi Peduli Pengangguran
+          </h2>
+<!-- Subheadline -->
+<p class="text-base sm:text-lg text-slate-300 font-normal mb-8 leading-relaxed max-w-xl">
+            Bersama Polri, wujudkan kesempatan kerja untuk masa depan yang lebih baik.
+          </p>
+<!-- Search Input Pill Container -->
+<div class="bg-white rounded-full p-1.5 sm:p-2 pl-5 sm:pl-6 flex items-center justify-between max-w-xl hero-search-shadow" data-purpose="job-search-input">
+<div class="flex items-center space-x-3 flex-1 min-w-0">
+<i class="fa-solid fa-magnifying-glass text-slate-400 text-sm"></i>
+<input class="w-full text-slate-800 placeholder-slate-400 text-sm border-0 focus:ring-0 focus:outline-none bg-transparent" placeholder="Cari lowongan pekerjaan..." type="text"/>
+</div>
+<button class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs sm:text-sm px-6 sm:px-7 py-2.5 sm:py-3 rounded-full flex items-center space-x-2 transition-all shadow-sm">
+<i class="fa-solid fa-magnifying-glass text-xs"></i>
+<span>Cari</span>
+</button>
+</div>
+<!-- Trending Keywords -->
+<div class="mt-4 flex flex-wrap items-center gap-2 text-xs sm:text-sm text-slate-300 font-medium">
+<span class="flex items-center text-amber-400 font-semibold mr-1">
+<i class="fa-solid fa-fire text-amber-500 mr-1.5"></i> Trending:
+            </span>
+<a class="hover:text-amber-300 transition-colors" href="#">IT Support</a>
+<span class="text-slate-500">|</span>
+<a class="hover:text-amber-300 transition-colors" href="#">Admin Staff</a>
+<span class="text-slate-500">|</span>
+<a class="hover:text-amber-300 transition-colors" href="#">Security</a>
+<span class="text-slate-500">|</span>
+<a class="hover:text-amber-300 transition-colors" href="#">Barista</a>
+</div>
+</div>
+</div>
+</section>
+<!-- END: HeroSection -->
+<!-- BEGIN: QuickAccessBanner -->
+<section class="relative z-20 -mt-10 sm:-mt-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" data-purpose="service-category-cards">
+<div class="bg-white rounded-2xl shadow-card-float border border-slate-100 p-4 sm:p-6 lg:p-7">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-4 divide-y sm:divide-y-0 sm:divide-x divide-slate-100">
+<!-- Category 1: Lowongan Kerja -->
+<a class="flex items-center space-x-4 group pt-3 sm:pt-0 sm:px-4 cursor-pointer hover:bg-slate-50/80 rounded-xl transition p-2" href="#lowongan">
+<div class="w-12 h-12 rounded-xl bg-slate-900 text-white flex items-center justify-center shadow-md group-hover:bg-amber-500 transition-colors shrink-0">
+<i class="fa-solid fa-briefcase text-lg group-hover:text-slate-950 transition-colors"></i>
+</div>
+<div>
+<h3 class="font-bold text-slate-900 text-sm group-hover:text-amber-600 transition-colors">Lowongan Kerja</h3>
+<p class="text-xs text-slate-500 mt-0.5">Temukan pekerjaan terbaik</p>
+</div>
+</a>
+<!-- Category 2: Pelatihan -->
+<a class="flex items-center space-x-4 group pt-4 sm:pt-0 sm:px-4 cursor-pointer hover:bg-slate-50/80 rounded-xl transition p-2" href="#pelatihan">
+<div class="w-12 h-12 rounded-xl bg-slate-900 text-white flex items-center justify-center shadow-md group-hover:bg-amber-500 transition-colors shrink-0">
+<i class="fa-solid fa-graduation-cap text-lg group-hover:text-slate-950 transition-colors"></i>
+</div>
+<div>
+<h3 class="font-bold text-slate-900 text-sm group-hover:text-amber-600 transition-colors">Pelatihan</h3>
+<p class="text-xs text-slate-500 mt-0.5">Tingkatkan keterampilan Anda</p>
+</div>
+</a>
+<!-- Category 3: Pencari Kerja -->
+<a class="flex items-center space-x-4 group pt-4 sm:pt-0 sm:px-4 cursor-pointer hover:bg-slate-50/80 rounded-xl transition p-2" href="#pencari-kerja">
+<div class="w-12 h-12 rounded-xl bg-slate-900 text-white flex items-center justify-center shadow-md group-hover:bg-amber-500 transition-colors shrink-0">
+<i class="fa-solid fa-users text-lg group-hover:text-slate-950 transition-colors"></i>
+</div>
+<div>
+<h3 class="font-bold text-slate-900 text-sm group-hover:text-amber-600 transition-colors">Pencari Kerja</h3>
+<p class="text-xs text-slate-500 mt-0.5">Daftarkan diri dengan mudah</p>
+</div>
+</a>
+<!-- Category 4: Mitra Perusahaan -->
+<a class="flex items-center space-x-4 group pt-4 sm:pt-0 sm:px-4 cursor-pointer hover:bg-slate-50/80 rounded-xl transition p-2" href="#mitra">
+<div class="w-12 h-12 rounded-xl bg-slate-900 text-white flex items-center justify-center shadow-md group-hover:bg-amber-500 transition-colors shrink-0">
+<i class="fa-solid fa-handshake text-lg group-hover:text-slate-950 transition-colors"></i>
+</div>
+<div>
+<h3 class="font-bold text-slate-900 text-sm group-hover:text-amber-600 transition-colors">Mitra Perusahaan</h3>
+<p class="text-xs text-slate-500 mt-0.5">Bergabung bersama kami</p>
+</div>
+</a>
+</div>
+</div>
+</section>
+<!-- END: QuickAccessBanner -->
+<!-- BEGIN: LowonganTerbaruSection -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14" data-purpose="latest-job-listings" id="lowongan">
+<!-- Section Header -->
+<div class="flex items-center justify-between mb-7">
+<div class="flex items-center space-x-3">
+<span class="w-1.5 h-6 bg-amber-500 rounded-full inline-block"></span>
+<h2 class="text-xl sm:text-2xl font-bold text-slate-900">Lowongan Terbaru</h2>
+</div>
+<a class="text-xs sm:text-sm font-semibold text-amber-600 hover:text-amber-700 flex items-center space-x-1 group" href="#all-jobs">
+<span>Lihat Semua</span>
+<i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+</a>
+</div>
+<!-- Job Cards Grid & Promo Card -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+<!-- Job Card 1: Staff IT Support (BCA) -->
+<div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md hover:border-slate-200 transition-all flex flex-col justify-between" data-purpose="job-card">
+<div>
+<!-- Header: Company Logo & Bookmark -->
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center space-x-2">
+<div class="w-8 h-8 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-black text-xs">
+<i class="fa-solid fa-building-columns"></i>
+</div>
+<span class="font-bold text-blue-800 text-base tracking-tight">BCA</span>
+</div>
+<button aria-label="Simpan Lowongan" class="text-slate-400 hover:text-amber-500 transition-colors">
+<i class="fa-regular fa-bookmark text-sm"></i>
+</button>
+</div>
+<!-- Job Title and Company -->
+<h3 class="font-bold text-slate-900 text-base hover:text-amber-600 transition-colors cursor-pointer">Staff IT Support</h3>
+<p class="text-xs text-slate-500 mt-1 font-medium">PT Bank Central Asia Tbk</p>
+</div>
+<!-- Card Footer Meta -->
+<div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+<span class="text-slate-500 flex items-center">
+<i class="fa-solid fa-location-dot text-slate-400 mr-1.5 text-xs"></i>
+              Jakarta Selatan
+            </span>
+<span class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-600 border border-emerald-100">
+              Full Time
+            </span>
+</div>
+</div>
+<!-- Job Card 2: Marketing Staff (Indofood) -->
+<div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md hover:border-slate-200 transition-all flex flex-col justify-between" data-purpose="job-card">
+<div>
+<!-- Header: Company Logo & Bookmark -->
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center space-x-1.5">
+<span class="font-serif italic font-extrabold text-blue-600 text-lg tracking-tight">Indofood</span>
+</div>
+<button aria-label="Simpan Lowongan" class="text-slate-400 hover:text-amber-500 transition-colors">
+<i class="fa-regular fa-bookmark text-sm"></i>
+</button>
+</div>
+<!-- Job Title and Company -->
+<h3 class="font-bold text-slate-900 text-base hover:text-amber-600 transition-colors cursor-pointer">Marketing Staff</h3>
+<p class="text-xs text-slate-500 mt-1 font-medium">PT Indofood Sukses Makmur</p>
+</div>
+<!-- Card Footer Meta -->
+<div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+<span class="text-slate-500 flex items-center">
+<i class="fa-solid fa-location-dot text-slate-400 mr-1.5 text-xs"></i>
+              Tangerang
+            </span>
+<span class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-600 border border-emerald-100">
+              Full Time
+            </span>
+</div>
+</div>
+<!-- Job Card 3: Admin Staff (Astra) -->
+<div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md hover:border-slate-200 transition-all flex flex-col justify-between" data-purpose="job-card">
+<div>
+<!-- Header: Company Logo & Bookmark -->
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center space-x-1.5">
+<div class="w-5 h-3 bg-blue-700 rounded-sm"></div>
+<span class="font-bold text-blue-900 tracking-wider text-sm">ASTRA</span>
+</div>
+<button aria-label="Simpan Lowongan" class="text-slate-400 hover:text-amber-500 transition-colors">
+<i class="fa-regular fa-bookmark text-sm"></i>
+</button>
+</div>
+<!-- Job Title and Company -->
+<h3 class="font-bold text-slate-900 text-base hover:text-amber-600 transition-colors cursor-pointer">Admin Staff</h3>
+<p class="text-xs text-slate-500 mt-1 font-medium">PT Astra International Tbk</p>
+</div>
+<!-- Card Footer Meta -->
+<div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+<span class="text-slate-500 flex items-center">
+<i class="fa-solid fa-location-dot text-slate-400 mr-1.5 text-xs"></i>
+              Jakarta
+            </span>
+<span class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-700 border border-amber-100">
+              Part Time
+            </span>
+</div>
+</div>
+<!-- Promotional Feature Card (POLIRAN Call to Action) -->
+<div class="promo-card-bg text-white rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between shadow-lg" data-purpose="promo-card">
+<!-- Background Subtle Officer Silhouette Overlay -->
+<div class="absolute right-0 bottom-0 opacity-15 pointer-events-none transform translate-x-4 translate-y-2">
+<i class="fa-solid fa-user-shield text-8xl text-white"></i>
+</div>
+<div class="relative z-10">
+<h3 class="font-extrabold text-base sm:text-lg leading-snug text-white">
+              Wujudkan Karier Lebih Baik Bersama POLIRAN
+            </h3>
+<p class="text-xs text-slate-300 mt-2 leading-relaxed font-normal">
+              Dapatkan informasi lowongan, pelatihan, dan berbagai program ketenagakerjaan dari Polrestabes.
+            </p>
+</div>
+<div class="relative z-10 mt-6">
+<a class="inline-flex items-center space-x-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs px-4 py-2.5 rounded-full transition-all duration-150 shadow" href="#pelajari-lebih-lanjut">
+<span>Pelajari Lebih Lanjut</span>
+<i class="fa-solid fa-arrow-right text-[10px]"></i>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- END: LowonganTerbaruSection -->
+<!-- BEGIN: ProgramUnggulanSection -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16" data-purpose="featured-programs" id="pelatihan">
+<!-- Section Header -->
+<div class="flex items-center space-x-3 mb-7">
+<span class="w-1.5 h-6 bg-amber-500 rounded-full inline-block"></span>
+<h2 class="text-xl sm:text-2xl font-bold text-slate-900">Program Unggulan</h2>
+</div>
+<!-- Feature Grid Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Program 1 -->
+<div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md transition">
+<div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl mb-4">
+<i class="fa-solid fa-comments"></i>
+</div>
+<h3 class="font-bold text-slate-900 text-base mb-2">Bimbingan Karier &amp; Konseling</h3>
+<p class="text-xs text-slate-500 leading-relaxed">
+            Dukungan psikologi kerja serta konsultasi pengembangan potensi diri bersama pakar ketenagakerjaan dan jajaran Polri.
+          </p>
+<a class="inline-flex items-center text-xs font-bold text-amber-600 mt-4 hover:text-amber-700" href="#">
+            Daftar Konseling <i class="fa-solid fa-chevron-right ml-1.5 text-[10px]"></i>
+</a>
+</div>
+<!-- Program 2 -->
+<div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md transition">
+<div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl mb-4">
+<i class="fa-solid fa-certificate"></i>
+</div>
+<h3 class="font-bold text-slate-900 text-base mb-2">Sertifikasi Keahlian Gratis</h3>
+<p class="text-xs text-slate-500 leading-relaxed">
+            Program pelatihan vokasi gratis berstandar BNSP, mencakup keahlian teknis, administrasi, security berizin, hingga barista.
+          </p>
+<a class="inline-flex items-center text-xs font-bold text-blue-600 mt-4 hover:text-blue-700" href="#">
+            Lihat Jadwal Kelas <i class="fa-solid fa-chevron-right ml-1.5 text-[10px]"></i>
+</a>
+</div>
+<!-- Program 3 -->
+<div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md transition">
+<div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl mb-4">
+<i class="fa-solid fa-building-user"></i>
+</div>
+<h3 class="font-bold text-slate-900 text-base mb-2">Penyaluran Kerja Terpadu</h3>
+<p class="text-xs text-slate-500 leading-relaxed">
+            Akses langsung dengan jaringan mitra industri skala nasional untuk penempatan tenaga kerja terverifikasi dan aman.
+          </p>
+<a class="inline-flex items-center text-xs font-bold text-emerald-600 mt-4 hover:text-emerald-700" href="#">
+            Cek Mitra Rekanan <i class="fa-solid fa-chevron-right ml-1.5 text-[10px]"></i>
+</a>
+</div>
+</div>
+</section>
+<!-- END: ProgramUnggulanSection -->
+</main>
+<!-- BEGIN: MainFooter -->
+<footer class="bg-[#091526] text-slate-300 border-t border-slate-800 text-xs" data-purpose="site-footer">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+<!-- Col 1: Brand & Office -->
+<div class="space-y-4">
+<div class="flex items-center space-x-3">
+<div class="w-9 h-9 rounded-full bg-amber-500 flex items-center justify-center text-slate-950 font-bold">
+<i class="fa-solid fa-shield-halved"></i>
+</div>
+<div>
+<span class="text-base font-extrabold text-white tracking-wider">POLIRAN</span>
+<p class="text-[10px] text-slate-400">Polrestabes Program</p>
+</div>
+</div>
+<p class="text-slate-400 text-xs leading-relaxed">
+            Inisiatif kepedulian Polri untuk menekan angka pengangguran melalui pembinaan, pelatihan keterampilan, dan penyaluran kerja produktif.
+          </p>
+</div>
+<!-- Col 2: Akses Cepat -->
+<div>
+<h4 class="font-semibold text-white uppercase tracking-wider text-xs mb-3">Akses Cepat</h4>
+<ul class="space-y-2">
+<li><a class="hover:text-amber-400 transition" href="#lowongan">Bursa Lowongan Kerja</a></li>
+<li><a class="hover:text-amber-400 transition" href="#pelatihan">Jadwal Pelatihan Vokasi</a></li>
+<li><a class="hover:text-amber-400 transition" href="#mitra">Registrasi Mitra Industri</a></li>
+<li><a class="hover:text-amber-400 transition" href="#">Panduan Pembuatan SKCK</a></li>
+</ul>
+</div>
+<!-- Col 3: Layanan Bantuan -->
+<div>
+<h4 class="font-semibold text-white uppercase tracking-wider text-xs mb-3">Pusat Bantuan</h4>
+<ul class="space-y-2">
+<li><a class="hover:text-amber-400 transition" href="#faq">Tanya Jawab (FAQ)</a></li>
+<li><a class="hover:text-amber-400 transition" href="#">Syarat &amp; Ketentuan</a></li>
+<li><a class="hover:text-amber-400 transition" href="#">Kebijakan Privasi</a></li>
+<li><a class="hover:text-amber-400 transition" href="#">Kontak Helpdesk</a></li>
+</ul>
+</div>
+<!-- Col 4: Posko & Kontak Polrestabes -->
+<div>
+<h4 class="font-semibold text-white uppercase tracking-wider text-xs mb-3">Sekretariat POLIRAN</h4>
+<p class="text-slate-400 leading-relaxed mb-2">
+            Gedung Pelayanan Terpadu Polrestabes<br/>
+            Hotline Bantuan: <strong>110</strong> / 0812-POLIRAN-OK
+          </p>
+<div class="flex items-center space-x-3 mt-4 text-slate-400">
+<a class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-amber-500 hover:text-slate-900 transition" href="#"><i class="fa-brands fa-instagram"></i></a>
+<a class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-amber-500 hover:text-slate-900 transition" href="#"><i class="fa-brands fa-facebook-f"></i></a>
+<a class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-amber-500 hover:text-slate-900 transition" href="#"><i class="fa-brands fa-x-twitter"></i></a>
+<a class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-amber-500 hover:text-slate-900 transition" href="#"><i class="fa-brands fa-youtube"></i></a>
+</div>
+</div>
+</div>
+<!-- Copyright Note -->
+<div class="border-t border-slate-800/80 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500">
+<p>© 2026 POLIRAN - Polisi Peduli Pengangguran. Hak Cipta Dilindungi Undang-Undang.</p>
+<p class="mt-2 sm:mt-0 flex items-center space-x-1">
+<span>Menuju Indonesia Maju &amp; Produktif</span>
+<i class="fa-solid fa-flag text-red-500 ml-1"></i>
+</p>
+</div>
+</div>
+</footer>
+<!-- END: MainFooter -->
+</body></html>

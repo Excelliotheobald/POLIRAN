@@ -3,6 +3,10 @@
 @theme inline {
   --font-sans: var(--font-plus-jakarta-sans);
 
+  /* Page surface tokens used by the <body> rule below */
+  --color-background: #f8fafc;
+  --color-foreground: #334155;
+
   --color-navy-850: #0f1e36;
   --color-navy-900: #0a1628;
   --color-navy-950: #060e1a;

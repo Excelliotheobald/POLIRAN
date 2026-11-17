@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>harness</title>
+  </head>
+  <body style="margin: 0; font-family: monospace">
+    <pre
+      id="out"
+      style="position: fixed; top: 0; left: 0; right: 0; z-index: 10; background: #111; color: #0f0; padding: 8px; font-size: 18px; margin: 0"
+    >
+PENDING</pre
+    >
+    <iframe id="f" src="/" style="width: 1280px; height: 1400px; border: 0"></iframe>
+    <script>
+      const log = [];
+      const out = document.getElementById("out");
+      const f = document.getElementById("f");
+      const finish = () => {
+        out.textContent = log.join("\n");
+        document.title = "DONE";
+      };
+      f.addEventListener("load", () => {
+        setTimeout(() => {
+          try {
+            const doc = f.contentDocument;
+            const cards = () => doc.querySelectorAll('[data-purpose="job-card"]').length;
+            const byText = (t) =>
+              [...doc.querySelectorAll("a")].find((a) => a.textContent.trim() === t);
+
+            log.push("hydrated: " + (doc.querySelector("#job-search") ? "yes" : "no"));
+            log.push("initial job cards: " + cards());
+
+            byText("Security").click();
+            setTimeout(() => {
+              log.push("after trending 'Security' -> cards: " + cards());
+              log.push("search input value: " + doc.getElementById("job-search").value);
+
+              const bm = doc.querySelector('[data-purpose="job-card"] button');
+              const before = doc.querySelector('[data-purpose="job-card"] button i').className;
+              bm.click();
+              setTimeout(() => {
+                const after = doc.querySelector('[data-purpose="job-card"] button i').className;
+                log.push("bookmark before: " + before);
+                log.push("bookmark after : " + after);
+
+                const input = doc.getElementById("job-search");
+                const setter = Object.getOwnPropertyDescriptor(
+                  window.HTMLInputElement.prototype,
+                  "value"
+                ).set;
+                setter.call(input, "astra");
+                input.dispatchEvent(new Event("input", { bubbles: true }));
+                setTimeout(() => {
+                  log.push("after typing 'astra' -> cards: " + cards());
+                  log.push(
+                    "empty state shown: " +
+                      (doc.body.textContent.includes("Lowongan tidak ditemukan")
+                        ? "yes"
+                        : "no")
+                  );
+
+                  [...doc.querySelectorAll("a")]
+                    .find((a) => a.textContent.includes("Lihat Semua"))
+                    .click();
+                  setTimeout(() => {
+                    log.push("after 'Lihat Semua' -> cards: " + cards());
+                    log.push("search input value: " + doc.getElementById("job-search").value);
+                    log.push(
+                      "promo card present: " +
+                        (doc.querySelector('[data-purpose="promo-card"]') ? "yes" : "no")
+                    );
+                    finish();
+                  }, 400);
+                }, 400);
+              }, 400);
+            }, 400);
+          } catch (e) {
+            log.push("ERROR: " + e.message);
+            finish();
+          }
+        }, 2500);
+      });
+    </script>
+  </body>
+</html>

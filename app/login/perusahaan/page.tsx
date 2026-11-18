@@ -35,113 +35,107 @@ export default function LoginPerusahaanPage() {
       <PoliranStrip />
       <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10 flex items-center justify-center">
         <div className="w-[600px] h-[600px] bg-surface-container rounded-full blur-3xl opacity-60" />
+        <div className="w-[400px] h-[400px] bg-slate-200/40 rounded-full blur-2xl opacity-40 -translate-y-24 translate-x-32" />
       </div>
       <div className="flex-1 flex items-center justify-center px-4 py-8 sm:py-10 w-full">
-      <div className="w-full max-w-[460px] mx-auto flex flex-col items-center">
-        <Link
-          className="self-start mb-4 flex items-center space-x-1 text-xs font-medium text-on-surface-variant hover:text-[#132238] transition-colors"
-          href="/login"
-        >
-          <ChevronLeft className="w-4 h-4" />
-          <span>Ganti jenis akun</span>
-        </Link>
-        <div className="w-full bg-surface-container-lowest border border-slate-200/80 rounded-2xl shadow-card-clean p-8 sm:p-10 transition-all duration-200">
-          <div className="flex flex-col items-center text-center mb-8">
-            <h1 className="text-2xl font-bold tracking-tight text-on-surface">Masuk Sebagai Perusahaan</h1>
-            <p className="text-sm text-on-surface-variant mt-1.5 font-normal">
-              Masuk ke akun mitra perusahaan POLIRAN
-            </p>
-          </div>
+        <div className="w-full max-w-[460px] mx-auto flex flex-col items-center">
+          <Link
+            className="self-start mb-4 flex items-center space-x-1 text-xs font-medium text-on-surface-variant hover:text-[#132238] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#132238]/40 rounded-lg transition-colors"
+            href="/login"
+          >
+            <ChevronLeft className="w-4 h-4" aria-hidden="true" />
+            <span>Ganti jenis akun</span>
+          </Link>
+          <div className="w-full bg-surface-container-lowest rounded-2xl shadow-card-clean p-5 sm:p-10 transition-all duration-200">
+            <div className="flex flex-col items-center text-center mb-7">
+              <h1 className="text-2xl font-bold tracking-tight text-on-surface">Login Sebagai Perusahaan</h1>
+              <p className="text-sm text-on-surface-variant mt-2 font-normal">
+                Masuk ke akun mitra perusahaan POLIRAN
+              </p>
+            </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="space-y-2">
-              <label className="block text-xs font-semibold uppercase tracking-wider text-on-surface" htmlFor="company-email">
-                Email Perusahaan
-              </label>
-              <div className="relative rounded-xl border border-slate-300 focus-within:border-primary-container focus-within:ring-2 focus-within:ring-primary-container/10 transition-all duration-150">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                  <Building2 className="w-5 h-5" />
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-on-surface mb-1.5" htmlFor="company-email">
+                  Email Perusahaan
+                </label>
+                <div className="relative flex items-center">
+                  <Building2 className="absolute left-3.5 text-on-surface-variant pointer-events-none w-5 h-5" />
+                  <input
+                    className="w-full pl-11 pr-4 py-3 bg-surface-container-lowest text-on-surface rounded-lg placeholder-on-surface-variant focus:outline-none text-base sm:text-sm shadow-sm"
+                    id="company-email"
+                    name="email"
+                    placeholder="email@perusahaan.com"
+                    required
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
                 </div>
-                <input
-                  className="w-full pl-11 pr-4 py-3 bg-transparent text-sm text-on-surface placeholder:text-slate-400 border-0 focus:ring-0 focus:outline-none rounded-xl"
-                  id="company-email"
-                  name="email"
-                  placeholder="email@perusahaan.com"
-                  required
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
               </div>
-            </div>
 
-            <div className="space-y-2">
-              <label className="block text-xs font-semibold uppercase tracking-wider text-on-surface" htmlFor="company-password">
-                Kata Sandi
-              </label>
-              <div className="relative rounded-xl border border-slate-300 focus-within:border-primary-container focus-within:ring-2 focus-within:ring-primary-container/10 transition-all duration-150">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                  <Lock className="w-5 h-5" />
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-on-surface mb-1.5" htmlFor="company-password">
+                  Kata Sandi
+                </label>
+                <div className="relative flex items-center">
+                  <Lock className="absolute left-3.5 text-on-surface-variant pointer-events-none w-5 h-5" />
+                  <input
+                    className="w-full pl-11 pr-11 py-3 bg-surface-container-lowest text-on-surface rounded-lg placeholder-on-surface-variant focus:outline-none text-base sm:text-sm shadow-sm"
+                    id="company-password"
+                    name="password"
+                    placeholder="Masukkan kata sandi"
+                    required
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <button
+                    aria-label={showPassword ? "Sembunyikan kata sandi" : "Lihat kata sandi"}
+                    className="absolute right-2 w-9 h-9 flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors"
+                    id="toggle-company-password-btn"
+                    onClick={togglePassword}
+                    type="button"
+                  >
+                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
                 </div>
-                <input
-                  className="w-full pl-11 pr-11 py-3 bg-transparent text-sm text-on-surface placeholder:text-slate-400 border-0 focus:ring-0 focus:outline-none rounded-xl"
-                  id="company-password"
-                  name="password"
-                  placeholder="Masukkan kata sandi"
-                  required
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <button
-                  aria-label={showPassword ? "Sembunyikan kata sandi" : "Lihat kata sandi"}
-                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-700 transition"
-                  id="toggle-company-password-btn"
-                  onClick={togglePassword}
-                  type="button"
-                >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                </button>
               </div>
-            </div>
 
-            <div className="flex items-center justify-between pt-1">
-              <label className="flex items-center space-x-2.5 cursor-pointer select-none">
-                <input
-                  checked={rememberMe}
-                  className="w-4 h-4 rounded text-primary-container focus:ring-primary-container/20 border-slate-300 accent-[#132238] cursor-pointer"
-                  type="checkbox"
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                />
-                <span className="text-xs text-on-surface-variant font-medium">Ingat Saya</span>
-              </label>
-              <a className="text-xs font-medium text-amber-700 hover:text-amber-800 hover:underline transition-colors" href="#lupa-sandi">
-                Lupa Kata Sandi?
-              </a>
-            </div>
+              <div className="flex items-center justify-between pt-1">
+                <label className="flex items-center space-x-2.5 cursor-pointer select-none">
+                  <input
+                    checked={rememberMe}
+                    className="h-5 w-5 rounded text-[#132238] focus:ring-[#132238]/30 focus:ring-offset-1 border-slate-300 cursor-pointer"
+                    type="checkbox"
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                  />
+                  <span className="text-[13px] sm:text-xs text-on-surface-variant font-medium">Ingat Saya</span>
+                </label>
+                <a className="text-[13px] sm:text-xs font-medium text-amber-700 hover:text-amber-800 hover:underline transition-colors" href="#lupa-sandi">
+                  Lupa Kata Sandi?
+                </a>
+              </div>
 
-            <div className="pt-1">
               <button
-                className="w-full py-3.5 px-4 rounded-xl bg-[#132238] hover:bg-[#0c1726] text-white font-semibold text-sm tracking-wide shadow-md hover:shadow-lg active:scale-[0.99] transition-all duration-150 flex items-center justify-center space-x-2"
+                className="w-full flex items-center justify-center space-x-2 bg-[#132238] hover:bg-[#000b1f] text-white py-4 px-6 rounded-lg text-sm sm:text-base font-medium shadow-md hover:shadow-lg active:scale-[0.99] transition-all duration-200"
                 type="submit"
               >
                 <span>Masuk Sekarang</span>
                 <ArrowRight className="w-5 h-5" />
               </button>
+            </form>
+
+            <div className="mt-8 pt-6 border-t border-slate-100 text-center">
+              <p className="text-xs text-on-surface-variant">
+                Perusahaan Anda belum menjadi mitra?{" "}
+                <a className="font-bold text-[#132238] hover:text-amber-600 transition-colors ml-1" href="#daftar-mitra">
+                  Daftar Jadi Mitra
+                </a>
+              </p>
             </div>
-
-          </form>
-
-          <div className="mt-4 pt-4 border-t border-slate-100 text-center">
-            <p className="text-xs text-on-surface-variant">
-              Perusahaan Anda belum menjadi mitra?{" "}
-              <a className="font-bold text-[#132238] hover:text-amber-600 transition-colors ml-1" href="#daftar-mitra">
-                Daftar Jadi Mitra
-              </a>
-            </p>
           </div>
         </div>
-      </div>
       </div>
 
       {/* Floating help popup — bottom right corner */}

@@ -76,14 +76,14 @@ function MainHeader() {
           {/* Login Button */}
           <a
             className="px-5 py-2 text-xs font-semibold text-white border border-white/80 rounded-full hover:bg-white/10 hover:border-white transition-all duration-150"
-            href="#login"
+            href="login"
           >
-            Login
+            Masuk
           </a>
           {/* Daftar Button */}
           <a
             className="px-5 py-2 text-xs font-semibold text-white bg-[#0b172a] hover:bg-[#07101e] border border-slate-700 rounded-full shadow-md flex items-center space-x-1.5 hover:shadow-lg transition-all duration-150"
-            href="#daftar"
+            href="register"
           >
             <i className="fa-solid fa-user-plus text-[11px] text-white" />
             <span>Daftar</span>

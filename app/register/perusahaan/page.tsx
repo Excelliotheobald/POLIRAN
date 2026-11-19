@@ -4,14 +4,19 @@ import { FormEvent, ReactNode, useState } from "react";
 import {
   CheckCircle2,
   ChevronRight,
+  Building2,
   Eye,
   EyeOff,
   FileText,
+  Headphones,
   KeyRound,
+  Landmark,
   LockKeyhole,
   Mail,
+  MapPin,
   Phone,
   Save,
+  Send,
   ShieldCheck,
   Upload,
   UserRound,
@@ -63,13 +68,27 @@ export default function RegisterCompanyPage() {
 
   const completeProfileLegalStep = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setFormMessage("Tahap review dan verifikasi belum tersedia. Data pada tahap ini belum dikirim ke server.");
+    setFormMessage("");
+    setCurrentStep(3);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const stepTitle = currentStep === 1 ? "Buat akun & identitas PIC" : "Profil, lokasi & legalitas perusahaan";
+  const returnToProfileLegalStep = () => {
+    setCurrentStep(2);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const stepTitle = currentStep === 1
+    ? "Buat akun & identitas PIC"
+    : currentStep === 2
+      ? "Profil, lokasi & legalitas perusahaan"
+      : "Tinjau ringkasan & verifikasi final";
   const stepDescription = currentStep === 1
     ? "Daftarkan akun pengelola lowongan dan penanggung jawab resmi yang mewakili perusahaan Anda."
-    : "Lengkapi profil badan usaha, alamat operasional, NIB, NPWP, akta, serta izin sektoral perusahaan.";
+    : currentStep === 2
+      ? "Lengkapi profil badan usaha, alamat operasional, NIB, NPWP, akta, serta izin sektoral perusahaan."
+      : "Periksa ringkasan pendaftaran, setujui pakta integritas, lalu ajukan permohonan verifikasi mitra.";
+  const progressPercentage = Math.round((currentStep / 3) * 100);
 
   return (
     <>
@@ -79,7 +98,7 @@ export default function RegisterCompanyPage() {
           <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
             <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
               <div className="max-w-3xl">
-                <p className="inline-flex items-center gap-2 rounded-full border border-[#132238] bg-[#132238] px-3 py-1 text-xs font-bold tracking-wide text-white">
+                <p className="inline-flex items-center gap-2 rounded-full border border-[#fdc425] bg-[#fdc425] px-3 py-1 text-xs font-bold tracking-wide text-slate-950">
                   <ShieldCheck className="h-4 w-4" aria-hidden="true" />
                   TAHAP {currentStep} DARI 3 · PENDAFTARAN MITRA PERUSAHAAN
                 </p>
@@ -92,34 +111,38 @@ export default function RegisterCompanyPage() {
               </div>
 
               <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4 lg:min-w-60">
-                <div className="grid h-12 w-12 place-items-center rounded-full border-4 border-[#132238] text-xs font-extrabold text-[#132238]">
-                  {currentStep}/3
+                <div className="relative grid h-12 w-12 place-items-center" aria-label={`${progressPercentage}% progres pendaftaran`} aria-valuemax={100} aria-valuemin={0} aria-valuenow={progressPercentage} role="progressbar">
+                  <svg className="absolute inset-0 h-full w-full -rotate-90" viewBox="0 0 48 48" aria-hidden="true">
+                    <circle className="stroke-slate-200" cx="24" cy="24" fill="none" r="20" strokeWidth="4" />
+                    <circle className="stroke-[#132238] transition-[stroke-dasharray] duration-300" cx="24" cy="24" fill="none" pathLength="100" r="20" strokeDasharray={`${progressPercentage} 100`} strokeLinecap="round" strokeWidth="4" />
+                  </svg>
+                  <span className="relative text-xs font-extrabold text-[#132238]">{currentStep}/3</span>
                 </div>
                 <div>
                   <p className="text-xs font-bold uppercase tracking-wide text-slate-500">Progres pendaftaran</p>
-                  <p className="mt-0.5 text-lg font-extrabold text-[#132238]">{currentStep === 1 ? "33%" : "67%"} · Tahap {currentStep}</p>
-                  <p className="text-xs text-slate-500">{currentStep === 1 ? "Akun dan PIC" : "Profil dan legalitas"}</p>
+                  <p className="mt-0.5 text-lg font-extrabold text-[#132238]">{progressPercentage}% · Tahap {currentStep}</p>
+                  <p className="text-xs text-slate-500">{currentStep === 1 ? "Akun dan PIC" : currentStep === 2 ? "Profil dan legalitas" : "Review dan verifikasi"}</p>
                 </div>
               </div>
             </div>
 
-            <ol className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4" aria-label="Tahapan pendaftaran">
+            <ol className="mt-8 grid grid-cols-1 gap-3 md:grid-cols-3" aria-label="Tahapan pendaftaran">
               {STEPS.map((step, index) => {
                 const active = index === currentStep - 1;
                 const completed = index < currentStep - 1;
                 return (
                   <li
                     key={step.number}
-                    className={`rounded-xl border p-4 ${active ? "border-[#132238] bg-[#132238] text-white shadow-sm" : "border-slate-200 bg-white text-slate-700"}`}
+                    className={`flex min-h-36 flex-col rounded-xl border p-4 ${active ? "border-[#132238] bg-[#132238] text-white shadow-sm" : "border-slate-200 bg-white text-slate-700"}`}
                     aria-current={active ? "step" : undefined}
                   >
-                    <div className="flex items-center justify-between">
+                    <div className="flex min-h-7 items-center justify-between gap-3">
                       <span className={`text-lg font-extrabold ${active ? "text-amber-300" : "text-slate-400"}`}>{step.number}</span>
-                      <span className={`rounded-full px-2 py-1 text-[10px] font-bold uppercase tracking-wide ${active ? "bg-[#fdc425] text-slate-950" : "bg-slate-100 text-slate-500"}`}>
+                      <span className={`whitespace-nowrap rounded-full px-2 py-1 text-[10px] font-bold uppercase tracking-wide ${active ? "bg-[#fdc425] text-slate-950" : completed ? "bg-emerald-100 text-emerald-800" : "bg-slate-100 text-slate-500"}`}>
                         {active ? "Sedang diisi" : completed ? "Selesai" : "Berikutnya"}
                       </span>
                     </div>
-                    <p className="mt-4 text-sm font-bold">{step.title}</p>
+                    <p className="mt-auto pt-5 text-sm font-bold">{step.title}</p>
                     <p className={`mt-1 text-xs ${active ? "text-slate-300" : "text-slate-500"}`}>{step.description}</p>
                   </li>
                 );
@@ -265,14 +288,12 @@ export default function RegisterCompanyPage() {
           onBack={returnToAccountStep}
           onSubmit={completeProfileLegalStep}
         />
+        <ReviewVerificationStep hidden={currentStep !== 3} onBack={returnToProfileLegalStep} onEditAccount={returnToAccountStep} />
       </main>
-      <section className="bg-slate-50 px-4 pb-8 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl rounded-xl bg-[#132238] p-5 text-white shadow-sm sm:flex sm:items-center sm:justify-between sm:gap-8">
-          <div>
-            <h2 className="font-extrabold text-amber-300">Layanan bebas biaya</h2>
-            <p className="mt-2 text-sm leading-6 text-slate-200">Pendaftaran mitra tidak dipungut biaya. Jangan memberikan uang atau data kepada pihak yang tidak terverifikasi.</p>
-          </div>
-          <div className="mt-4 flex shrink-0 items-center gap-2 text-sm font-bold text-white sm:mt-0"><CheckCircle2 className="h-5 w-5 text-emerald-300" aria-hidden="true" />Call Center Polri 110</div>
+      <section className="bg-slate-50 px-4 pb-7 sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-5xl flex-col items-center justify-center gap-2 border-t border-slate-200 pt-5 text-center sm:flex-row sm:text-left">
+          <p className="text-xs leading-5 text-slate-500">Pendaftaran mitra tidak dipungut biaya. Jangan memberikan uang atau data kepada pihak yang tidak terverifikasi.</p>
+          <a className="inline-flex shrink-0 items-center gap-1.5 text-xs font-semibold text-[#132238] transition hover:text-amber-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#132238]" href="tel:110"><Headphones className="h-4 w-4" aria-hidden="true" />Call Center Polri 110</a>
         </div>
       </section>
       <MainFooter />
@@ -368,4 +389,126 @@ function Field({ label, id, hint, required, children }: { label: string; id: str
 
 function LegalBlock({ title, number, children }: { title: string; number: string; children: ReactNode }) {
   return <div className="border-t border-slate-200 pt-6 first:border-t-0 first:pt-0"><div className="mb-5 flex items-center gap-3"><span className="grid h-7 w-7 place-items-center rounded-full bg-[#132238] text-xs font-bold text-amber-300">{number}</span><h3 className="font-extrabold text-[#132238]">{title}</h3></div>{children}</div>;
+}
+
+function ReviewVerificationStep({ hidden, onBack, onEditAccount }: { hidden: boolean; onBack: () => void; onEditAccount: () => void }) {
+  const [submittedPreview, setSubmittedPreview] = useState(false);
+  const [declarations, setDeclarations] = useState({ truth: false, employment: false, noFee: false });
+
+  const openPreview = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSubmittedPreview(true);
+  };
+
+  return (
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8" hidden={hidden}>
+      <form className="space-y-6" onSubmit={openPreview} noValidate>
+        <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7" aria-labelledby="review-heading">
+          <SectionHeading icon={<CheckCircle2 className="h-5 w-5" aria-hidden="true" />} title="Ringkasan pendaftaran mitra" description="Data di bawah ini ditampilkan sebagai pratinjau. Lengkapi tahap sebelumnya bila ada informasi yang masih kosong." id="review-heading" />
+
+          <div className="mt-6 space-y-5">
+            <ReviewCard icon={<UserRound className="h-5 w-5" aria-hidden="true" />} title="1. Identitas akun & PIC penanggung jawab" editLabel="Ubah slide 1" onEdit={onEditAccount}>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <ReviewValue label="Nama lengkap PIC" value="Belum diisi" detail="Jabatan dan status penunjukan akan tampil di sini." />
+                <ReviewValue label="Nomor identitas PIC" value="Belum diisi" detail="Nomor identitas tidak ditampilkan penuh pada ringkasan." />
+                <ReviewValue label="Email aktif PIC" value="Belum diisi" detail="Status kode OTP akan muncul setelah layanan tersedia." />
+                <ReviewValue label="Nomor WhatsApp PIC" value="Belum diisi" detail="Digunakan untuk komunikasi terkait proses verifikasi." />
+              </div>
+              <ReviewAttachment label="Dokumen identitas dan surat penunjukan PIC" value="Belum ada berkas dipilih" />
+            </ReviewCard>
+
+            <ReviewCard icon={<Building2 className="h-5 w-5" aria-hidden="true" />} title="2. Profil & lokasi operasional perusahaan" editLabel="Ubah slide 2" onEdit={onBack}>
+              <div className="grid gap-4 md:grid-cols-3">
+                <div className="md:col-span-2">
+                  <p className="text-xs font-semibold text-slate-500">Nama resmi entitas bisnis</p>
+                  <p className="mt-1 text-base font-extrabold text-[#132238]">Belum diisi</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-600">Bentuk badan usaha</span>
+                    <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-600">Sektor industri</span>
+                    <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-600">Skala karyawan</span>
+                  </div>
+                </div>
+                <ReviewValue label="Akses komunikasi resmi" value="Belum diisi" detail="Telepon dan website perusahaan." />
+              </div>
+              <div className="mt-4 grid gap-4 rounded-xl bg-slate-50 p-4 sm:grid-cols-12 sm:items-center">
+                <div className="sm:col-span-8">
+                  <p className="flex items-center gap-2 text-sm font-bold text-[#132238]"><MapPin className="h-4 w-4 text-amber-600" aria-hidden="true" />Alamat kantor pusat / operasional</p>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">Belum diisi. Alamat lengkap, wilayah administratif, kode pos, dan koordinat lokasi akan dirangkum di sini.</p>
+                </div>
+                <div className="grid min-h-24 place-items-center rounded-lg border border-dashed border-[#132238]/30 bg-[#e8f0ff] px-3 text-center text-xs font-semibold text-[#132238] sm:col-span-4">Titik lokasi kantor<br /><span className="mt-1 font-normal text-slate-500">pratinjau peta</span></div>
+              </div>
+            </ReviewCard>
+
+            <ReviewCard icon={<Landmark className="h-5 w-5" aria-hidden="true" />} title="3. Dokumen legalitas & perizinan berusaha" editLabel="Ubah slide 2" onEdit={onBack}>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <ReviewValue label="NIB (Nomor Induk Berusaha) OSS" value="Belum diisi" detail="Status sinkronisasi OSS akan tersedia setelah backend terhubung." />
+                <ReviewValue label="NPWP badan usaha" value="Belum diisi" detail="Status validasi DJP akan tersedia setelah backend terhubung." />
+              </div>
+              <div className="mt-3 rounded-xl bg-slate-50 p-4">
+                <p className="text-xs font-semibold text-slate-500">Akta pendirian & pengesahan Kemenkumham RI</p>
+                <p className="mt-1 text-sm font-bold text-[#132238]">Belum diisi</p>
+                <p className="mt-1 text-xs leading-5 text-slate-500">Nomor akta, nama notaris, SK Kemenkumham, serta izin sektoral akan tampil di sini.</p>
+              </div>
+              <div className="mt-4">
+                <p className="text-xs font-bold uppercase tracking-wide text-slate-500">Berkas legalitas terunggah</p>
+                <div className="mt-2 grid gap-3 sm:grid-cols-3">
+                  <ReviewAttachment label="NIB resmi OSS" value="Belum ada berkas" compact />
+                  <ReviewAttachment label="NPWP badan usaha" value="Belum ada berkas" compact />
+                  <ReviewAttachment label="Akta & SK Kemenkumham" value="Belum ada berkas" compact />
+                </div>
+              </div>
+            </ReviewCard>
+          </div>
+        </section>
+
+        <section className="rounded-xl border-l-4 border-[#132238] bg-white p-5 shadow-sm sm:p-7" aria-labelledby="integrity-heading">
+          <div className="flex items-start gap-3">
+            <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-[#132238] text-amber-300"><ShieldCheck className="h-5 w-5" aria-hidden="true" /></div>
+            <div><h2 className="text-lg font-extrabold text-[#132238]" id="integrity-heading">Pakta integritas & deklarasi kepatuhan</h2><p className="mt-1 text-sm leading-5 text-slate-600">Centang pernyataan berikut sebelum mengirimkan permohonan saat backend pendaftaran tersedia.</p></div>
+          </div>
+          <fieldset className="mt-6 space-y-3"><legend className="sr-only">Deklarasi kepatuhan hukum</legend>
+            <Declaration checked={declarations.truth} onChange={(checked) => setDeclarations((current) => ({ ...current, truth: checked }))} title="Pernyataan kebenaran & keaslian dokumen" description="Saya menyatakan seluruh data, dokumen legalitas, dan informasi PIC yang diberikan adalah sah, asli, dan dapat dipertanggungjawabkan." />
+            <Declaration checked={declarations.employment} onChange={(checked) => setDeclarations((current) => ({ ...current, employment: checked }))} title="Komitmen upah layak & perlindungan ketenagakerjaan" description="Perusahaan berkomitmen mematuhi ketentuan ketenagakerjaan yang berlaku, termasuk ketentuan upah dan kepesertaan jaminan sosial tenaga kerja." />
+            <Declaration checked={declarations.noFee} onChange={(checked) => setDeclarations((current) => ({ ...current, noFee: checked }))} title="Prinsip bebas pungutan liar" description="Perusahaan tidak memungut biaya dalam bentuk apa pun dari pelamar kerja pada seluruh tahapan seleksi dan penempatan." highlighted />
+          </fieldset>
+          <div className="mt-6 flex flex-col justify-between gap-4 rounded-xl bg-slate-50 p-4 sm:flex-row sm:items-center">
+            <div><p className="text-xs text-slate-500">Tanda tangan elektronik penanggung jawab</p><p className="mt-1 font-mono text-sm font-extrabold text-[#132238]">Akan dibuat saat pengajuan aktif</p></div>
+            <div className="sm:text-right"><p className="text-xs text-slate-500">Segel keamanan</p><p className="mt-1 inline-flex items-center gap-1 rounded bg-white px-2 py-1 font-mono text-xs text-slate-600"><LockKeyhole className="h-3.5 w-3.5" aria-hidden="true" />Belum tersedia pada pratinjau UI</p></div>
+          </div>
+        </section>
+
+        <div className="flex flex-col-reverse gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+          <button className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-slate-300 px-4 text-sm font-bold text-slate-700 transition hover:bg-slate-50" type="button" onClick={onBack}>Kembali ke profil & legalitas</button>
+          <div className="flex flex-col gap-3 sm:flex-row"><button className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-slate-300 px-4 text-sm font-bold text-slate-500" type="button" disabled><Save className="h-4 w-4" aria-hidden="true" />Simpan draf (belum aktif)</button><button className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-[#132238] px-5 text-sm font-bold text-white transition hover:bg-[#0b172a]" type="submit"><Send className="h-4 w-4" aria-hidden="true" />Pratinjau pengiriman</button></div>
+        </div>
+      </form>
+
+      <section className="mt-6 grid gap-6 lg:grid-cols-2" aria-label="Informasi proses verifikasi">
+        <article className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7"><h2 className="text-lg font-extrabold text-[#132238]">Alur setelah submit</h2><p className="mt-1 text-sm text-slate-600">Estimasi proses akan ditentukan setelah layanan verifikasi diaktifkan.</p><ol className="mt-5 space-y-5 border-l-2 border-slate-200 pl-5"><ProcessStep number="1" title="Validasi sistem otomatis" description="Pemeriksaan NIB dan NPWP dapat dilakukan setelah integrasi layanan terkait tersedia." /><ProcessStep number="2" title="Verifikasi faktual dokumen" description="Petugas berwenang akan memeriksa kelengkapan dan kesesuaian berkas yang diajukan." /><ProcessStep number="3" title="Penerbitan akun mitra" description="Status dan akses akun akan diberitahukan setelah proses verifikasi selesai." /></ol></article>
+        <article className="rounded-xl bg-[#132238] p-5 text-white shadow-sm sm:p-7"><h2 className="flex items-center gap-2 text-lg font-extrabold"><ShieldCheck className="h-5 w-5 text-amber-300" aria-hidden="true" />Keamanan data</h2><p className="mt-3 text-sm leading-6 text-slate-200">Pratinjau ini belum mengirim, menyimpan, atau memverifikasi data apa pun. Kebijakan keamanan dan pemrosesan data akan ditetapkan saat backend resmi tersedia.</p><div className="mt-5 rounded-lg bg-white/10 p-3 text-xs leading-5 text-slate-100">Untuk bantuan resmi, gunakan kanal POLIRAN yang telah diverifikasi atau Call Center Polri 110.</div></article>
+      </section>
+
+      {submittedPreview && <div className="fixed inset-0 z-50 grid place-items-center bg-[#132238]/70 p-4" role="dialog" aria-modal="true" aria-labelledby="preview-title"><div className="w-full max-w-lg rounded-2xl bg-white p-6 text-center shadow-2xl sm:p-8"><div className="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-emerald-100 text-emerald-700"><CheckCircle2 className="h-9 w-9" aria-hidden="true" /></div><p className="mt-5 text-xs font-extrabold uppercase tracking-wide text-emerald-700">Pratinjau pengiriman</p><h2 className="mt-2 text-2xl font-extrabold text-[#132238]" id="preview-title">Permohonan belum dikirim</h2><p className="mt-3 text-sm leading-6 text-slate-600">Tampilan konfirmasi sudah siap. Data tidak dikirim atau disimpan karena layanan backend pendaftaran belum tersedia.</p><div className="mt-5 rounded-xl bg-[#e8f0ff] p-4 font-mono text-sm font-bold tracking-wide text-[#132238]">TIKET AKAN DIBUAT SAAT BACKEND AKTIF</div><button className="mt-5 h-11 w-full rounded-lg bg-[#132238] px-4 text-sm font-bold text-white hover:bg-[#0b172a]" type="button" onClick={() => setSubmittedPreview(false)}>Tutup pratinjau</button></div></div>}
+    </div>
+  );
+}
+
+function ReviewCard({ icon, title, editLabel, onEdit, children }: { icon: ReactNode; title: string; editLabel: string; onEdit: () => void; children: ReactNode }) {
+  return <article className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"><div className="flex flex-col gap-3 border-b border-slate-100 pb-4 sm:flex-row sm:items-center sm:justify-between"><div className="flex items-center gap-3"><div className="grid h-9 w-9 place-items-center rounded-lg bg-[#edf4ff] text-[#132238]">{icon}</div><h2 className="text-base font-extrabold text-[#132238]">{title}</h2></div><button className="self-start rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-bold text-[#132238] transition hover:bg-slate-200 sm:self-auto" type="button" onClick={onEdit}>{editLabel}</button></div><div className="mt-5">{children}</div></article>;
+}
+
+function ReviewValue({ label, value, detail }: { label: string; value: string; detail: string }) {
+  return <div className="rounded-xl bg-slate-50 p-3"><p className="text-xs font-semibold text-slate-500">{label}</p><p className="mt-1 text-sm font-bold text-[#132238]">{value}</p><p className="mt-1 text-xs leading-5 text-slate-500">{detail}</p></div>;
+}
+
+function ReviewAttachment({ label, value, compact = false }: { label: string; value: string; compact?: boolean }) {
+  return <div className={`flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 ${compact ? "" : "mt-4"}`}><FileText className="h-5 w-5 shrink-0 text-[#132238]" aria-hidden="true" /><div className="min-w-0"><p className="truncate text-xs font-bold text-[#132238]">{label}</p><p className="mt-0.5 text-xs text-slate-500">{value}</p></div></div>;
+}
+
+function Declaration({ checked, onChange, title, description, highlighted = false }: { checked: boolean; onChange: (checked: boolean) => void; title: string; description: string; highlighted?: boolean }) {
+  return <label className={`flex cursor-pointer gap-3 rounded-xl p-3 transition hover:bg-slate-50 ${highlighted ? "bg-amber-50/70" : ""}`}><input className="mt-0.5 h-4 w-4 shrink-0 accent-[#132238]" checked={checked} onChange={(event) => onChange(event.target.checked)} type="checkbox" /><span><span className="block text-sm font-bold text-[#132238]">{title}</span><span className="mt-1 block text-xs leading-5 text-slate-600">{description}</span></span></label>;
+}
+
+function ProcessStep({ number, title, description }: { number: string; title: string; description: string }) {
+  return <li className="relative"><span className="absolute -left-[2.05rem] grid h-7 w-7 place-items-center rounded-full bg-[#132238] text-xs font-bold text-amber-300">{number}</span><p className="text-sm font-bold text-[#132238]">{title}</p><p className="mt-1 text-xs leading-5 text-slate-600">{description}</p></li>;
 }

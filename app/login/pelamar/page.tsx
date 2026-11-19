@@ -31,27 +31,29 @@ export default function LoginPelamarPage() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col bg-surface relative">
+    <main className="min-h-screen flex flex-col bg-surface relative overflow-x-hidden">
       <PoliranStrip />
+
+      {/* Back button pinned to top-left below strip */}
+      <div className="w-full px-2 pt-1 pb-0">
+        <Link
+          className="inline-flex items-center gap-1 mt-1.5 md:text-base text-xs text-[#132238] hover:text-white bg-slate-50 hover:bg-[#132238] border border-[#132238]/30 hover:border-[#132238] pr-2 pl-1 py-1.5 rounded-lg transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#132238]/20"
+          href="/login"
+        >
+          <ChevronLeft className="w-5 h-5" aria-hidden="true" />
+          <span>Kembali</span>
+        </Link>
+      </div>
+
       <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10 flex items-center justify-center">
         <div className="w-[600px] h-[600px] bg-surface-container rounded-full blur-3xl opacity-60" />
         <div className="w-[400px] h-[400px] bg-slate-200/40 rounded-full blur-2xl opacity-40 -translate-y-24 translate-x-32" />
       </div>
-      <div className="flex-1 flex items-center justify-center px-4 py-8 sm:py-10 w-full">
+      <div className="flex-1 flex items-center justify-center px-4 py-4 sm:py-10 w-full">
         <div className="w-full max-w-[460px] mx-auto flex flex-col items-center">
-          <Link
-            className="self-start mb-4 flex items-center space-x-1 text-xs font-medium text-on-surface-variant hover:text-[#132238] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#132238]/40 rounded-lg transition-colors"
-            href="/login"
-          >
-            <ChevronLeft className="w-4 h-4" aria-hidden="true" />
-            <span>Ganti jenis akun</span>
-          </Link>
           <div className="w-full bg-surface-container-lowest rounded-2xl shadow-card-clean p-5 sm:p-10 transition-all duration-200">
-            <div className="flex flex-col items-center text-center mb-7">
-              <h1 className="text-2xl font-bold tracking-tight text-on-surface">Masuk Sebagai Pelamar Kerja</h1>
-              <p className="text-sm text-on-surface-variant mt-2 font-normal">
-                Masuk ke akun POLIRAN Anda
-              </p>
+            <div className="flex -mt-25 md:mt-0 flex-col items-center text-center mb-7">
+              <h1 className="md:text-2xl text-xl font-bold tracking-tight text-on-surface">Masuk Sebagai Pelamar Kerja</h1>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
@@ -62,7 +64,7 @@ export default function LoginPelamarPage() {
                 <div className="relative flex items-center">
                   <User className="absolute left-3.5 text-on-surface-variant pointer-events-none w-5 h-5" />
                   <input
-                    className="w-full pl-11 pr-4 py-3 bg-surface-container-lowest text-on-surface rounded-lg placeholder-on-surface-variant focus:outline-none text-base sm:text-sm shadow-sm"
+                    className="w-full pl-11 bg-white pr-4 py-3 bg-surface-container-lowest text-on-surface rounded-lg placeholder-on-surface-variant placeholder:text-sm focus:outline-none text-base sm:text-sm shadow-sm"
                     id="login-identifier"
                     name="identifier"
                     placeholder="nama@email.com atau 16 digit NIK"
@@ -81,7 +83,7 @@ export default function LoginPelamarPage() {
                 <div className="relative flex items-center">
                   <Lock className="absolute left-3.5 text-on-surface-variant pointer-events-none w-5 h-5" />
                   <input
-                    className="w-full pl-11 pr-11 py-3 bg-surface-container-lowest text-on-surface rounded-lg placeholder-on-surface-variant focus:outline-none text-base sm:text-sm shadow-sm"
+                    className="w-full pl-11 pr-11 py-3 bg-white text-on-surface rounded-lg placeholder-on-surface-variant placeholder:text-sm focus:outline-none text-base sm:text-sm shadow-sm"
                     id="login-password"
                     name="password"
                     placeholder="Masukkan kata sandi"
@@ -126,8 +128,8 @@ export default function LoginPelamarPage() {
               </button>
             </form>
 
-            <div className="mt-8 pt-6 border-t border-slate-100 text-center">
-              <p className="text-xs text-on-surface-variant">
+            <div className="mt-4 pt-6 border-t border-slate-200 text-center">
+              <p className="text-xs -mt-4 text-on-surface-variant">
                 Belum memiliki akun?{" "}
                 <Link className="font-bold text-[#132238] hover:text-amber-600 transition-colors ml-1" href="/register">
                   Daftar Sekarang

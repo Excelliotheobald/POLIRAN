@@ -363,7 +363,7 @@ function SectionHeading({ icon, title, description, id }: { icon: ReactNode; tit
 }
 
 function Field({ label, id, hint, required, children }: { label: string; id: string; hint?: string; required?: boolean; children: ReactNode }) {
-  return <div><label className="text-sm font-bold text-slate-800" htmlFor={id}>{label} {required && <span className="text-red-700">*</span>}</label>{hint && <p className="mt-1 text-xs text-slate-500">{hint}</p>}{children}</div>;
+  return <div><label className="text-sm font-bold text-slate-800" htmlFor={id}>{label} {required && <span className="text-red-700">*</span>}</label>{hint ? <p className="mt-1 min-h-5 text-xs text-slate-500">{hint}</p> : <div className="mt-1 min-h-5" aria-hidden="true" />}{children}</div>;
 }
 
 function LegalBlock({ title, number, children }: { title: string; number: string; children: ReactNode }) {

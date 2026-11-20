@@ -2,17 +2,20 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const NAV_LINKS = [
   { href: "/#beranda", label: "Beranda", active: true },
   { href: "/#lowongan", label: "Lowongan Kerja", active: false },
-  { href: "/#pelatihan", label: "Pelatihan", active: false },
+  { href: "/data-ketenagakerjaan", label: "Data Ketenagakerjaan", active: false },
   { href: "/#tentang", label: "Tentang Kami", active: false },
   { href: "/#faq", label: "FAQ", active: false },
 ];
 
 function MainHeader() {
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const isDataPage = pathname === "/data-ketenagakerjaan";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -25,8 +28,8 @@ function MainHeader() {
     <header
       data-purpose="site-navigation"
       className={`fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter,border-color] duration-500 ease-out ${
-        scrolled
-          ? "bg-[#0f1f38]/60 backdrop-blur-lg border-b border-slate-700/40"
+        scrolled || isDataPage
+          ? "bg-[#0f1f38]/95 backdrop-blur-lg border-b border-slate-700/40"
           : "bg-transparent backdrop-blur-0 border-b border-transparent"
       }`}
     >
@@ -52,7 +55,8 @@ function MainHeader() {
         {/* Center Navigation Links */}
         <nav className="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-200">
           {NAV_LINKS.map((link) =>
-            link.active ? (
+            (link.href === "/#beranda" && pathname === "/") ||
+            (link.href === "/data-ketenagakerjaan" && pathname === link.href) ? (
               <Link
                 key={link.label}
                 className="relative text-white py-1 flex items-center space-x-1.5 transition-colors group"

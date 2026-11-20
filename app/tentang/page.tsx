@@ -1,6 +1,16 @@
 "use client";
 
 import Link from "next/link";
+import {
+  Award,
+  BadgeCheck,
+  Building2,
+  CheckCircle,
+  GraduationCap,
+  Handshake,
+  Headphones,
+  Shield,
+} from "lucide-react";
 
 export default function TentangKami() {
   return (
@@ -49,7 +59,7 @@ export default function TentangKami() {
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/30 to-transparent flex items-end p-6 sm:p-8">
                 <div className="space-y-1">
                   <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400 text-slate-950 text-xs font-extrabold uppercase tracking-wider mb-2 shadow-sm">
-                    <span className="material-symbols-outlined text-sm font-bold">verified</span>
+                    <CheckCircle className="text-sm font-bold" />
                     Program Unggulan
                   </div>
                   <h3 className="text-white text-lg sm:text-2xl font-extrabold leading-snug">
@@ -106,11 +116,11 @@ export default function TentangKami() {
             {/* Kartu 1 (Kiri, Tinggi & Besar, span 1 col md:row-span-2) */}
             <div className="md:col-span-1 md:row-span-2 rounded-3xl p-7 bg-[#0A192F] text-white border border-slate-800 shadow-md flex flex-col justify-between relative overflow-hidden group">
               <div className="absolute -right-10 -bottom-10 opacity-5 pointer-events-none">
-                <span className="material-symbols-outlined text-[180px]">verified_user</span>
+                <Award className="text-[180px] text-amber-400/10" />
               </div>
               <div className="space-y-4 relative z-10">
                 <div className="w-12 h-12 rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center font-bold shadow-md">
-                  <span className="material-symbols-outlined text-2xl">badge</span>
+                  <BadgeCheck className="text-2xl" />
                 </div>
                 <div>
                   <span className="text-[11px] font-extrabold uppercase tracking-wider text-amber-400">
@@ -130,7 +140,7 @@ export default function TentangKami() {
               <div className="pt-6 border-t border-slate-800 relative z-10 flex items-center justify-between text-xs text-slate-400">
                 <span>Terdata Sistem SIPP</span>
                 <span className="text-amber-400 font-bold flex items-center gap-1">
-                  <span className="material-symbols-outlined text-sm">check_circle</span>
+                  <CheckCircle className="text-sm" />
                   Terverifikasi
                 </span>
               </div>
@@ -141,7 +151,7 @@ export default function TentangKami() {
               <div className="flex items-start justify-between gap-4">
                 <div className="space-y-2">
                   <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 text-[10px] font-bold uppercase tracking-wide">
-                    <span className="material-symbols-outlined text-xs">location_city</span>
+                    <Building2 className="text-xs" />
                     Sentra Layanan Terpadu
                   </div>
                   <h3 className="text-lg font-bold text-slate-950">
@@ -152,13 +162,13 @@ export default function TentangKami() {
                   </p>
                 </div>
                 <div className="w-11 h-11 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 border border-sand-border">
-                  <span className="material-symbols-outlined text-2xl">support_agent</span>
+                  <Headphones className="text-2xl" />
                 </div>
               </div>
               <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
                 <span>Jangkauan 24 Jam Bebas Antre</span>
                 <span className="text-slate-900 font-bold flex items-center gap-1">
-                  <span className="material-symbols-outlined text-amber-500 text-sm">headset_mic</span>
+                  <Headphones className="text-amber-500 text-sm" />
                   Hotline 110
                 </span>
               </div>
@@ -168,7 +178,7 @@ export default function TentangKami() {
             <div className="md:col-span-1 md:row-span-2 rounded-3xl p-7 bg-white border-2 border-amber-400/40 shadow-md flex flex-col justify-between relative overflow-hidden group">
               <div className="space-y-4">
                 <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100">
-                  <span className="material-symbols-outlined text-2xl">lock_reset</span>
+                  <Shield className="text-2xl" />
                 </div>
                 <div>
                   <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-600">
@@ -188,7 +198,7 @@ export default function TentangKami() {
               <div className="pt-6 border-t border-sand-border flex items-center justify-between text-xs">
                 <span className="text-slate-500">Integritas Mutlak</span>
                 <span className="text-emerald-700 font-bold flex items-center gap-1">
-                  <span className="material-symbols-outlined text-sm">security</span>
+                  <Shield className="text-sm" />
                   Presisi Polri
                 </span>
               </div>
@@ -199,7 +209,7 @@ export default function TentangKami() {
               <div className="flex items-start justify-between gap-4">
                 <div className="space-y-2">
                   <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-700 text-[10px] font-bold uppercase tracking-wide">
-                    <span className="material-symbols-outlined text-xs">domain_verification</span>
+                    <Building2 className="text-xs" />
                     Kemitraan Terverifikasi
                   </div>
                   <h3 className="text-lg font-bold text-slate-950">
@@ -210,13 +220,13 @@ export default function TentangKami() {
                   </p>
                 </div>
                 <div className="w-11 h-11 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 border border-sand-border">
-                  <span className="material-symbols-outlined text-2xl">handshake</span>
+                  <Handshake className="text-2xl" />
                 </div>
               </div>
               <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
                 <span>Sertifikasi Standar BNSP</span>
                 <span className="text-slate-900 font-bold flex items-center gap-1">
-                  <span className="material-symbols-outlined text-amber-600 text-sm">verified</span>
+                  <CheckCircle className="text-amber-600 text-sm" />
                   100% Legal & Resmi
                 </span>
               </div>
@@ -226,7 +236,7 @@ export default function TentangKami() {
             <div className="md:col-span-4 rounded-3xl p-6 bg-sand-card border border-sand-border shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-2xl bg-[#0A192F] text-amber-400 flex items-center justify-center shrink-0">
-                  <span className="material-symbols-outlined text-2xl">school</span>
+                  <GraduationCap className="text-2xl" />
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-slate-950">
@@ -242,7 +252,7 @@ export default function TentangKami() {
                 className="px-5 py-2.5 rounded-full bg-slate-950 hover:bg-slate-800 text-white text-xs font-bold shrink-0 transition-all flex items-center gap-1.5"
               >
                 <span>Lihat Kejuruan</span>
-                <span className="material-symbols-outlined text-sm text-amber-400">arrow_forward</span>
+                <span className="text-sm text-amber-400">›</span>
               </Link>
             </div>
           </div>

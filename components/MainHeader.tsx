@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 const NAV_LINKS = [
-  { href: "#beranda", label: "Beranda", active: true },
-  { href: "#lowongan", label: "Lowongan Kerja", active: false },
-  { href: "#pelatihan", label: "Pelatihan", active: false },
-  { href: "#tentang", label: "Tentang Kami", active: false },
-  { href: "#faq", label: "FAQ", active: false },
+  { href: "/#beranda", label: "Beranda", active: true },
+  { href: "/#lowongan", label: "Lowongan Kerja", active: false },
+  { href: "/#pelatihan", label: "Pelatihan", active: false },
+  { href: "/#tentang", label: "Tentang Kami", active: false },
+  { href: "/#faq", label: "FAQ", active: false },
 ];
 
 function MainHeader() {
@@ -31,7 +32,7 @@ function MainHeader() {
     >
       <div className="max-w-[1440px] mx-auto px-3 sm:px-4 lg:px-5 h-20 flex items-center justify-between">
         {/* Brand Logo & Identity */}
-        <div className="flex items-center gap-3 cursor-pointer">
+        <Link className="flex items-center gap-3" href="/">
           {/* Polri Emblem Badge Placeholder */}
           <div>
             <img src="polri.png" alt="Polri Emblem" className="w-12 h-12" />
@@ -46,27 +47,27 @@ function MainHeader() {
               Polisi Peduli Pengangguran
             </span>
           </div>
-        </div>
+        </Link>
 
         {/* Center Navigation Links */}
         <nav className="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-200">
           {NAV_LINKS.map((link) =>
             link.active ? (
-              <a
+              <Link
                 key={link.label}
                 className="relative text-white py-1 flex items-center space-x-1.5 transition-colors group"
                 href={link.href}
               >
                 <span className="font-semibold text-white">{link.label}</span>
-              </a>
+              </Link>
             ) : (
-              <a
+              <Link
                 key={link.label}
                 className="hover:text-amber-400 transition-colors"
                 href={link.href}
               >
                 {link.label}
-              </a>
+              </Link>
             ),
           )}
         </nav>
@@ -74,20 +75,20 @@ function MainHeader() {
         {/* Right Action CTA Buttons */}
         <div className="flex items-center  space-x-3.5">
           {/* Login Button */}
-          <a
+          <Link
             className="px-5 py-2 text-xs font-semibold text-white border border-white/80 rounded-full hover:bg-white/10 hover:border-white transition-all duration-150"
-            href="login"
+            href="/login"
           >
             Masuk
-          </a>
+          </Link>
           {/* Daftar Button */}
-          <a
+          <Link
             className="px-5 py-2 text-xs font-semibold text-white bg-[#0b172a] hover:bg-[#07101e] border border-slate-700 rounded-full shadow-md flex items-center space-x-1.5 hover:shadow-lg transition-all duration-150"
-            href="register"
+            href="/register"
           >
             <i className="fa-solid fa-user-plus text-[11px] text-white" />
             <span>Daftar</span>
-          </a>
+          </Link>
         </div>
       </div>
     </header>

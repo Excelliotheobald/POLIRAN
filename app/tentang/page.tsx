@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { TrendingUp, Users, MapPin, Phone, Shield, Lock, Handshake, Book, GraduationCap } from "lucide-react";
 
 export default function TentangKami() {
   return (
@@ -110,7 +111,7 @@ export default function TentangKami() {
               </div>
               <div className="space-y-4 relative z-10">
                 <div className="w-12 h-12 rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center font-bold shadow-md">
-                  <span className="material-symbols-outlined text-2xl">badge</span>
+                  <TrendingUp className="text-2xl text-amber-950" />
                 </div>
                 <div>
                   <span className="text-[11px] font-extrabold uppercase tracking-wider text-amber-400">
@@ -141,8 +142,7 @@ export default function TentangKami() {
               <div className="flex items-start justify-between gap-4">
                 <div className="space-y-2">
                   <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 text-[10px] font-bold uppercase tracking-wide">
-                    <span className="material-symbols-outlined text-xs">location_city</span>
-                    Sentra Layanan Terpadu
+                    <MapPin className="text-xs mr-0.5 text-blue-600" /> Sentra Layanan Terpadu
                   </div>
                   <h3 className="text-lg font-bold text-slate-950">
                     Pendampingan Bhabinkamtibmas di 24 Polsek
@@ -152,7 +152,7 @@ export default function TentangKami() {
                   </p>
                 </div>
                 <div className="w-11 h-11 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 border border-sand-border">
-                  <span className="material-symbols-outlined text-2xl">support_agent</span>
+                  <Phone className="text-2xl text-amber-800" />
                 </div>
               </div>
               <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
@@ -168,7 +168,7 @@ export default function TentangKami() {
             <div className="md:col-span-1 md:row-span-2 rounded-3xl p-7 bg-white border-2 border-amber-400/40 shadow-md flex flex-col justify-between relative overflow-hidden group">
               <div className="space-y-4">
                 <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100">
-                  <span className="material-symbols-outlined text-2xl">lock_reset</span>
+                  <Shield className="text-2xl text-emerald-800" />
                 </div>
                 <div>
                   <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-600">
@@ -210,7 +210,7 @@ export default function TentangKami() {
                   </p>
                 </div>
                 <div className="w-11 h-11 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 border border-sand-border">
-                  <span className="material-symbols-outlined text-2xl">handshake</span>
+                  <Handshake className="text-2xl text-blue-600" />
                 </div>
               </div>
               <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
@@ -226,7 +226,7 @@ export default function TentangKami() {
             <div className="md:col-span-4 rounded-3xl p-6 bg-sand-card border border-sand-border shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-2xl bg-[#0A192F] text-amber-400 flex items-center justify-center shrink-0">
-                  <span className="material-symbols-outlined text-2xl">school</span>
+                  <GraduationCap className="text-2xl text-amber-600" />
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-slate-950">

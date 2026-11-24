@@ -1,0 +1,145 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  BHABINKAMTIBMAS
+  JOB_SEEKER
+  COMPANY
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  NEEDS_REVISION
+  REJECTED
+}
+
+model User {
+  id           String @id @default(cuid())
+  name         String
+  phone        String @unique
+  email        String @unique
+  passwordHash String
+
+  role     UserRole @default(JOB_SEEKER)
+  isActive Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relasi profil pelamar
+  jobSeekerProfile JobSeekerProfile?
+
+  // Relasi session
+  sessions Session[]
+
+  @@index([role])
+  @@index([isActive])
+  @@map("users")
+}
+
+model Session {
+  id        String @id @default(cuid())
+  tokenHash String @unique
+  userId    String
+
+  expiresAt  DateTime
+  revokedAt  DateTime?
+  lastUsedAt DateTime?
+
+  ipAddress String?
+  userAgent String?
+
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("sessions")
+}
+
+model JobSeekerProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+
+  // Data pribadi
+  birthDate DateTime? @db.Date
+  address   String?
+  village   String?
+  district  String?
+
+  // Pendidikan
+  educationLevel String?
+  educationMajor String?
+
+  // Keahlian
+  skills String[] @default([])
+
+  // Informasi pekerjaan
+  desiredWorkField String?
+
+  employmentStatus String?
+  jobSeekingStatus String?
+
+  // Verifikasi profil
+  verificationStatus VerificationStatus @default(PENDING)
+  verificationNote   String?
+  verifiedAt         DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  experiences WorkExperience[]
+  documents   JobSeekerDocument[]
+
+  @@index([verificationStatus])
+  @@map("job_seeker_profiles")
+}
+
+model WorkExperience {
+  id                 String @id @default(cuid())
+  jobSeekerProfileId String
+
+  companyName String
+  position    String
+  description String?
+
+  startDate DateTime? @db.Date
+  endDate   DateTime? @db.Date
+  isCurrent Boolean   @default(false)
+
+  createdAt DateTime @default(now())
+
+  jobSeekerProfile JobSeekerProfile @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
+
+  @@index([jobSeekerProfileId])
+  @@map("work_experiences")
+}
+
+model JobSeekerDocument {
+  id                 String @id @default(cuid())
+  jobSeekerProfileId String
+
+  fileName String
+  fileUrl  String
+  mimeType String?
+  fileSize Int?
+
+  createdAt DateTime @default(now())
+
+  jobSeekerProfile JobSeekerProfile @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
+
+  @@index([jobSeekerProfileId])
+  @@map("job_seeker_documents")
+}

@@ -4,6 +4,7 @@ import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Lock, Eye, EyeOff, CheckCircle, ArrowRight, User, Mail, ChevronLeft } from "lucide-react";
+import { toast } from "sonner";
 
 // Password strength levels: index matches the computed score (0-4)
 const STRENGTH_LEVELS = [
@@ -29,6 +30,7 @@ export default function RegisterPage() {
   const [passwordStrength, setPasswordStrength] = useState(0);
   const [passwordMatch, setPasswordMatch] = useState<"none" | "match" | "mismatch">("none");
   const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const toggleVisibility = (field: string) => {
@@ -67,21 +69,50 @@ export default function RegisterPage() {
     return null;
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setFormError(null);
     const passwordError = validatePassword(password);
     if (passwordError) {
       setPasswordError(passwordError);
       return;
     }
-    if (password !== passwordConfirm) return;
-    if (!agreement) return;
+    if (password !== passwordConfirm) {
+      setPasswordError("Kata sandi tidak cocok");
+      return;
+    }
+    if (!agreement) {
+      setFormError("Anda harus menyetujui syarat & ketentuan");
+      return;
+    }
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      alert("Pendaftaran Berhasil! Kode aktivasi akun telah dikirimkan ke WhatsApp & Email Anda. Silakan verifikasi untuk melanjutkan ke pencarian kerja.");
+    try {
+      const res = await fetch("/api/register/pelamar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fullname,
+          phone,
+          email,
+          password,
+          passwordConfirm,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setFormError(data.error || "Gagal mendaftar");
+        setIsSubmitting(false);
+        return;
+      }
+      toast.success("Pendaftaran berhasil! Silakan masuk dengan akun Anda.");
       router.push("/login");
-    }, 1200);
+    } catch (err) {
+      console.error(err);
+      setFormError("Terjadi kesalahan jaringan. Silakan coba lagi.");
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -295,6 +326,15 @@ export default function RegisterPage() {
                 </span>
               </label>
             </div>
+
+            {formError && (
+              <div
+                className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+                role="alert"
+              >
+                {formError}
+              </div>
+            )}
 
             {/* Primary CTA: Submit Button */}
             <button

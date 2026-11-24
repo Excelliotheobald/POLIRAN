@@ -150,6 +150,16 @@ export default function LoginRolePage() {
                 </Link>
               ))}
             </div>
+            {/* Footer */}
+            <div className="mt-4 pt-4 border-t border-slate-100 text-center">
+              <p className="text-xs text-on-surface-variant">
+                Belum memiliki akun POLIRAN?{" "}
+                <Link className="text-xs font-bold text-[#132238] hover:text-amber-600 inline-flex items-center space-x-1 ml-1 transition-colors" href="/register">
+                  <span>Daftar Sekarang</span>
+                  <ArrowRight className="w-3 h-3" />
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
       </div>

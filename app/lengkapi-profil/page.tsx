@@ -160,16 +160,14 @@ export default function LengkapiProfilPage() {
     goToStep(step - 1);
   };
 
-  const handleNikChange = (index: number, value: string) => {
-    const digits = value.replace(/[^0-9]/g, "").slice(0, 4);
-    setNik((prev) => {
-      const next = [...prev];
-      next[index] = digits;
-      return next;
-    });
-    if (digits.length === 4 && index < 3) {
-      nikRefs.current[index + 1]?.focus();
-    }
+  const handleNikChange = (value: string) => {
+    const digits = value.replace(/[^0-9]/g, "").slice(0, 16);
+    setNik([
+      digits.slice(0, 4),
+      digits.slice(4, 8),
+      digits.slice(8, 12),
+      digits.slice(12, 16),
+    ]);
   };
 
   const toggleInterest = (id: number) => {
@@ -191,13 +189,51 @@ export default function LengkapiProfilPage() {
     }
   };
 
-  const finishOnboarding = () => {
+    const finishOnboarding = async () => {
     if (interests.length === 0) {
       alert("Mohon pilih setidaknya 1 bidang pekerjaan yang Anda minati.");
       return;
     }
-    alert("Selamat! Profil Anda berhasil diverifikasi oleh sistem POLIRAN. Mengalihkan ke dashboard pencari kerja...");
-    router.push("/dashboard");
+
+    const userId = sessionStorage.getItem("poliranUserId");
+    if (!userId) {
+      alert("Sesi pendaftaran tidak ditemukan. Silakan login atau daftar kembali.");
+      router.push("/login");
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/profile/lengkapi", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId,
+          nik: nik.join(""),
+          provinsi,
+          kota,
+          kecamatan,
+          kelurahan,
+          rt,
+          rw,
+          alamat,
+          interests,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        alert(data.error || "Gagal menyimpan profil.");
+        return;
+      }
+
+      alert("Selamat! Profil Anda berhasil diverifikasi oleh sistem POLIRAN. Mengalihkan ke login...");
+      sessionStorage.removeItem("poliranUserId");
+      sessionStorage.removeItem("poliranUserName");
+      router.push("/login");
+    } catch (error) {
+      console.error("Error saving profile:", error);
+      alert("Terjadi kesalahan jaringan saat menyimpan profil.");
+    }
   };
 
   return (
@@ -282,26 +318,22 @@ export default function LengkapiProfilPage() {
                 </label>
                 <span className="text-[11px] text-on-surface-variant">16 digit</span>
               </div>
-              <div className="grid grid-cols-4 gap-1.5 sm:gap-2 md:gap-3 rounded-xl bg-surface-container-low p-2 sm:p-2.5">
-                {["Prov/Kab", "Kecamatan", "Tgl Lahir", "Nomor Urut"].map((segmentLabel, index) => (
-                  <div key={segmentLabel}>
-                    <input
-                      ref={(el) => {
-                        nikRefs.current[index] = el;
-                      }}
-                      aria-label={`NIK ${segmentLabel}`}
-                      id={`nik-segment-${index}`}
-                      className="w-full text-center font-mono text-base sm:text-lg font-semibold bg-surface-container-lowest text-on-surface rounded-lg py-3 sm:py-3.5 px-1.5 sm:px-2 shadow-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-container/15"
-                      inputMode="numeric"
-                      maxLength={4}
-                      placeholder="0000"
-                      type="text"
-                      value={nik[index]}
-                      onChange={(e) => handleNikChange(index, e.target.value)}
-                    />
-                    <span className="text-center block text-[9px] sm:text-[10px] text-on-surface-variant mt-1">{segmentLabel}</span>
-                  </div>
-                ))}
+              <div className="rounded-xl bg-surface-container-low p-2 sm:p-2.5">
+                <input
+                  ref={(el) => {
+                    nikRefs.current[0] = el;
+                  }}
+                  aria-label="NIK 16 digit"
+                  id="nik-segment-0"
+                  className="w-full text-center font-mono tracking-widest text-base sm:text-lg font-semibold bg-surface-container-lowest text-on-surface rounded-lg py-3 sm:py-3.5 px-3 shadow-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-container/15"
+                  inputMode="numeric"
+                  maxLength={16}
+                  placeholder="Masukkan 16 digit NIK e-KTP"
+                  type="text"
+                  value={nik.join("")}
+                  onChange={(e) => handleNikChange(e.target.value)}
+                />
+                <span className="text-center block text-[10px] sm:text-xs text-on-surface-variant mt-1.5">Nomor Induk Kependudukan (16 digit)</span>
               </div>
               {nikComplete ? (
                 <div className="flex items-center gap-2 text-on-tertiary-container text-xs font-medium">

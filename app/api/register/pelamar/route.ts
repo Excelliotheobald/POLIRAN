@@ -111,9 +111,6 @@ export async function POST(request: Request) {
         email,
         passwordHash,
         role: "JOB_SEEKER",
-        jobSeekerProfile: {
-          create: {},
-        },
       },
       select: {
         id: true,

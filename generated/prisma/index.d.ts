@@ -3639,10 +3639,15 @@ export namespace Prisma {
   export type JobSeekerProfileMinAggregateOutputType = {
     id: string | null
     userId: string | null
+    nik: string | null
     birthDate: Date | null
-    address: string | null
-    village: string | null
+    provinsi: string | null
+    kota: string | null
     district: string | null
+    village: string | null
+    rt: string | null
+    rw: string | null
+    address: string | null
     educationLevel: string | null
     educationMajor: string | null
     desiredWorkField: string | null
@@ -3658,10 +3663,15 @@ export namespace Prisma {
   export type JobSeekerProfileMaxAggregateOutputType = {
     id: string | null
     userId: string | null
+    nik: string | null
     birthDate: Date | null
-    address: string | null
-    village: string | null
+    provinsi: string | null
+    kota: string | null
     district: string | null
+    village: string | null
+    rt: string | null
+    rw: string | null
+    address: string | null
     educationLevel: string | null
     educationMajor: string | null
     desiredWorkField: string | null
@@ -3677,13 +3687,19 @@ export namespace Prisma {
   export type JobSeekerProfileCountAggregateOutputType = {
     id: number
     userId: number
+    nik: number
     birthDate: number
-    address: number
-    village: number
+    provinsi: number
+    kota: number
     district: number
+    village: number
+    rt: number
+    rw: number
+    address: number
     educationLevel: number
     educationMajor: number
     skills: number
+    interests: number
     desiredWorkField: number
     employmentStatus: number
     jobSeekingStatus: number
@@ -3699,10 +3715,15 @@ export namespace Prisma {
   export type JobSeekerProfileMinAggregateInputType = {
     id?: true
     userId?: true
+    nik?: true
     birthDate?: true
-    address?: true
-    village?: true
+    provinsi?: true
+    kota?: true
     district?: true
+    village?: true
+    rt?: true
+    rw?: true
+    address?: true
     educationLevel?: true
     educationMajor?: true
     desiredWorkField?: true
@@ -3718,10 +3739,15 @@ export namespace Prisma {
   export type JobSeekerProfileMaxAggregateInputType = {
     id?: true
     userId?: true
+    nik?: true
     birthDate?: true
-    address?: true
-    village?: true
+    provinsi?: true
+    kota?: true
     district?: true
+    village?: true
+    rt?: true
+    rw?: true
+    address?: true
     educationLevel?: true
     educationMajor?: true
     desiredWorkField?: true
@@ -3737,13 +3763,19 @@ export namespace Prisma {
   export type JobSeekerProfileCountAggregateInputType = {
     id?: true
     userId?: true
+    nik?: true
     birthDate?: true
-    address?: true
-    village?: true
+    provinsi?: true
+    kota?: true
     district?: true
+    village?: true
+    rt?: true
+    rw?: true
+    address?: true
     educationLevel?: true
     educationMajor?: true
     skills?: true
+    interests?: true
     desiredWorkField?: true
     employmentStatus?: true
     jobSeekingStatus?: true
@@ -3830,13 +3862,19 @@ export namespace Prisma {
   export type JobSeekerProfileGroupByOutputType = {
     id: string
     userId: string
+    nik: string | null
     birthDate: Date | null
-    address: string | null
-    village: string | null
+    provinsi: string | null
+    kota: string | null
     district: string | null
+    village: string | null
+    rt: string | null
+    rw: string | null
+    address: string | null
     educationLevel: string | null
     educationMajor: string | null
     skills: string[]
+    interests: string[]
     desiredWorkField: string | null
     employmentStatus: string | null
     jobSeekingStatus: string | null
@@ -3867,13 +3905,19 @@ export namespace Prisma {
   export type JobSeekerProfileSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    nik?: boolean
     birthDate?: boolean
-    address?: boolean
-    village?: boolean
+    provinsi?: boolean
+    kota?: boolean
     district?: boolean
+    village?: boolean
+    rt?: boolean
+    rw?: boolean
+    address?: boolean
     educationLevel?: boolean
     educationMajor?: boolean
     skills?: boolean
+    interests?: boolean
     desiredWorkField?: boolean
     employmentStatus?: boolean
     jobSeekingStatus?: boolean
@@ -3891,13 +3935,19 @@ export namespace Prisma {
   export type JobSeekerProfileSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    nik?: boolean
     birthDate?: boolean
-    address?: boolean
-    village?: boolean
+    provinsi?: boolean
+    kota?: boolean
     district?: boolean
+    village?: boolean
+    rt?: boolean
+    rw?: boolean
+    address?: boolean
     educationLevel?: boolean
     educationMajor?: boolean
     skills?: boolean
+    interests?: boolean
     desiredWorkField?: boolean
     employmentStatus?: boolean
     jobSeekingStatus?: boolean
@@ -3912,13 +3962,19 @@ export namespace Prisma {
   export type JobSeekerProfileSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    nik?: boolean
     birthDate?: boolean
-    address?: boolean
-    village?: boolean
+    provinsi?: boolean
+    kota?: boolean
     district?: boolean
+    village?: boolean
+    rt?: boolean
+    rw?: boolean
+    address?: boolean
     educationLevel?: boolean
     educationMajor?: boolean
     skills?: boolean
+    interests?: boolean
     desiredWorkField?: boolean
     employmentStatus?: boolean
     jobSeekingStatus?: boolean
@@ -3933,13 +3989,19 @@ export namespace Prisma {
   export type JobSeekerProfileSelectScalar = {
     id?: boolean
     userId?: boolean
+    nik?: boolean
     birthDate?: boolean
-    address?: boolean
-    village?: boolean
+    provinsi?: boolean
+    kota?: boolean
     district?: boolean
+    village?: boolean
+    rt?: boolean
+    rw?: boolean
+    address?: boolean
     educationLevel?: boolean
     educationMajor?: boolean
     skills?: boolean
+    interests?: boolean
     desiredWorkField?: boolean
     employmentStatus?: boolean
     jobSeekingStatus?: boolean
@@ -3950,7 +4012,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type JobSeekerProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "birthDate" | "address" | "village" | "district" | "educationLevel" | "educationMajor" | "skills" | "desiredWorkField" | "employmentStatus" | "jobSeekingStatus" | "verificationStatus" | "verificationNote" | "verifiedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["jobSeekerProfile"]>
+  export type JobSeekerProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "nik" | "birthDate" | "provinsi" | "kota" | "district" | "village" | "rt" | "rw" | "address" | "educationLevel" | "educationMajor" | "skills" | "interests" | "desiredWorkField" | "employmentStatus" | "jobSeekingStatus" | "verificationStatus" | "verificationNote" | "verifiedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["jobSeekerProfile"]>
   export type JobSeekerProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     experiences?: boolean | JobSeekerProfile$experiencesArgs<ExtArgs>
@@ -3974,13 +4036,19 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       userId: string
+      nik: string | null
       birthDate: Date | null
-      address: string | null
-      village: string | null
+      provinsi: string | null
+      kota: string | null
       district: string | null
+      village: string | null
+      rt: string | null
+      rw: string | null
+      address: string | null
       educationLevel: string | null
       educationMajor: string | null
       skills: string[]
+      interests: string[]
       desiredWorkField: string | null
       employmentStatus: string | null
       jobSeekingStatus: string | null
@@ -4417,13 +4485,19 @@ export namespace Prisma {
   interface JobSeekerProfileFieldRefs {
     readonly id: FieldRef<"JobSeekerProfile", 'String'>
     readonly userId: FieldRef<"JobSeekerProfile", 'String'>
+    readonly nik: FieldRef<"JobSeekerProfile", 'String'>
     readonly birthDate: FieldRef<"JobSeekerProfile", 'DateTime'>
-    readonly address: FieldRef<"JobSeekerProfile", 'String'>
-    readonly village: FieldRef<"JobSeekerProfile", 'String'>
+    readonly provinsi: FieldRef<"JobSeekerProfile", 'String'>
+    readonly kota: FieldRef<"JobSeekerProfile", 'String'>
     readonly district: FieldRef<"JobSeekerProfile", 'String'>
+    readonly village: FieldRef<"JobSeekerProfile", 'String'>
+    readonly rt: FieldRef<"JobSeekerProfile", 'String'>
+    readonly rw: FieldRef<"JobSeekerProfile", 'String'>
+    readonly address: FieldRef<"JobSeekerProfile", 'String'>
     readonly educationLevel: FieldRef<"JobSeekerProfile", 'String'>
     readonly educationMajor: FieldRef<"JobSeekerProfile", 'String'>
     readonly skills: FieldRef<"JobSeekerProfile", 'String[]'>
+    readonly interests: FieldRef<"JobSeekerProfile", 'String[]'>
     readonly desiredWorkField: FieldRef<"JobSeekerProfile", 'String'>
     readonly employmentStatus: FieldRef<"JobSeekerProfile", 'String'>
     readonly jobSeekingStatus: FieldRef<"JobSeekerProfile", 'String'>
@@ -7184,13 +7258,19 @@ export namespace Prisma {
   export const JobSeekerProfileScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
+    nik: 'nik',
     birthDate: 'birthDate',
-    address: 'address',
-    village: 'village',
+    provinsi: 'provinsi',
+    kota: 'kota',
     district: 'district',
+    village: 'village',
+    rt: 'rt',
+    rw: 'rw',
+    address: 'address',
     educationLevel: 'educationLevel',
     educationMajor: 'educationMajor',
     skills: 'skills',
+    interests: 'interests',
     desiredWorkField: 'desiredWorkField',
     employmentStatus: 'employmentStatus',
     jobSeekingStatus: 'jobSeekingStatus',
@@ -7514,13 +7594,19 @@ export namespace Prisma {
     NOT?: JobSeekerProfileWhereInput | JobSeekerProfileWhereInput[]
     id?: StringFilter<"JobSeekerProfile"> | string
     userId?: StringFilter<"JobSeekerProfile"> | string
+    nik?: StringNullableFilter<"JobSeekerProfile"> | string | null
     birthDate?: DateTimeNullableFilter<"JobSeekerProfile"> | Date | string | null
-    address?: StringNullableFilter<"JobSeekerProfile"> | string | null
-    village?: StringNullableFilter<"JobSeekerProfile"> | string | null
+    provinsi?: StringNullableFilter<"JobSeekerProfile"> | string | null
+    kota?: StringNullableFilter<"JobSeekerProfile"> | string | null
     district?: StringNullableFilter<"JobSeekerProfile"> | string | null
+    village?: StringNullableFilter<"JobSeekerProfile"> | string | null
+    rt?: StringNullableFilter<"JobSeekerProfile"> | string | null
+    rw?: StringNullableFilter<"JobSeekerProfile"> | string | null
+    address?: StringNullableFilter<"JobSeekerProfile"> | string | null
     educationLevel?: StringNullableFilter<"JobSeekerProfile"> | string | null
     educationMajor?: StringNullableFilter<"JobSeekerProfile"> | string | null
     skills?: StringNullableListFilter<"JobSeekerProfile">
+    interests?: StringNullableListFilter<"JobSeekerProfile">
     desiredWorkField?: StringNullableFilter<"JobSeekerProfile"> | string | null
     employmentStatus?: StringNullableFilter<"JobSeekerProfile"> | string | null
     jobSeekingStatus?: StringNullableFilter<"JobSeekerProfile"> | string | null
@@ -7537,13 +7623,19 @@ export namespace Prisma {
   export type JobSeekerProfileOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
+    nik?: SortOrderInput | SortOrder
     birthDate?: SortOrderInput | SortOrder
-    address?: SortOrderInput | SortOrder
-    village?: SortOrderInput | SortOrder
+    provinsi?: SortOrderInput | SortOrder
+    kota?: SortOrderInput | SortOrder
     district?: SortOrderInput | SortOrder
+    village?: SortOrderInput | SortOrder
+    rt?: SortOrderInput | SortOrder
+    rw?: SortOrderInput | SortOrder
+    address?: SortOrderInput | SortOrder
     educationLevel?: SortOrderInput | SortOrder
     educationMajor?: SortOrderInput | SortOrder
     skills?: SortOrder
+    interests?: SortOrder
     desiredWorkField?: SortOrderInput | SortOrder
     employmentStatus?: SortOrderInput | SortOrder
     jobSeekingStatus?: SortOrderInput | SortOrder
@@ -7560,16 +7652,22 @@ export namespace Prisma {
   export type JobSeekerProfileWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     userId?: string
+    nik?: string
     AND?: JobSeekerProfileWhereInput | JobSeekerProfileWhereInput[]
     OR?: JobSeekerProfileWhereInput[]
     NOT?: JobSeekerProfileWhereInput | JobSeekerProfileWhereInput[]
     birthDate?: DateTimeNullableFilter<"JobSeekerProfile"> | Date | string | null
-    address?: StringNullableFilter<"JobSeekerProfile"> | string | null
-    village?: StringNullableFilter<"JobSeekerProfile"> | string | null
+    provinsi?: StringNullableFilter<"JobSeekerProfile"> | string | null
+    kota?: StringNullableFilter<"JobSeekerProfile"> | string | null
     district?: StringNullableFilter<"JobSeekerProfile"> | string | null
+    village?: StringNullableFilter<"JobSeekerProfile"> | string | null
+    rt?: StringNullableFilter<"JobSeekerProfile"> | string | null
+    rw?: StringNullableFilter<"JobSeekerProfile"> | string | null
+    address?: StringNullableFilter<"JobSeekerProfile"> | string | null
     educationLevel?: StringNullableFilter<"JobSeekerProfile"> | string | null
     educationMajor?: StringNullableFilter<"JobSeekerProfile"> | string | null
     skills?: StringNullableListFilter<"JobSeekerProfile">
+    interests?: StringNullableListFilter<"JobSeekerProfile">
     desiredWorkField?: StringNullableFilter<"JobSeekerProfile"> | string | null
     employmentStatus?: StringNullableFilter<"JobSeekerProfile"> | string | null
     jobSeekingStatus?: StringNullableFilter<"JobSeekerProfile"> | string | null
@@ -7581,18 +7679,24 @@ export namespace Prisma {
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     experiences?: WorkExperienceListRelationFilter
     documents?: JobSeekerDocumentListRelationFilter
-  }, "id" | "userId">
+  }, "id" | "userId" | "nik">
 
   export type JobSeekerProfileOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
+    nik?: SortOrderInput | SortOrder
     birthDate?: SortOrderInput | SortOrder
-    address?: SortOrderInput | SortOrder
-    village?: SortOrderInput | SortOrder
+    provinsi?: SortOrderInput | SortOrder
+    kota?: SortOrderInput | SortOrder
     district?: SortOrderInput | SortOrder
+    village?: SortOrderInput | SortOrder
+    rt?: SortOrderInput | SortOrder
+    rw?: SortOrderInput | SortOrder
+    address?: SortOrderInput | SortOrder
     educationLevel?: SortOrderInput | SortOrder
     educationMajor?: SortOrderInput | SortOrder
     skills?: SortOrder
+    interests?: SortOrder
     desiredWorkField?: SortOrderInput | SortOrder
     employmentStatus?: SortOrderInput | SortOrder
     jobSeekingStatus?: SortOrderInput | SortOrder
@@ -7612,13 +7716,19 @@ export namespace Prisma {
     NOT?: JobSeekerProfileScalarWhereWithAggregatesInput | JobSeekerProfileScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"JobSeekerProfile"> | string
     userId?: StringWithAggregatesFilter<"JobSeekerProfile"> | string
+    nik?: StringNullableWithAggregatesFilter<"JobSeekerProfile"> | string | null
     birthDate?: DateTimeNullableWithAggregatesFilter<"JobSeekerProfile"> | Date | string | null
-    address?: StringNullableWithAggregatesFilter<"JobSeekerProfile"> | string | null
-    village?: StringNullableWithAggregatesFilter<"JobSeekerProfile"> | string | null
+    provinsi?: StringNullableWithAggregatesFilter<"JobSeekerProfile"> | string | null
+    kota?: StringNullableWithAggregatesFilter<"JobSeekerProfile"> | string | null
     district?: StringNullableWithAggregatesFilter<"JobSeekerProfile"> | string | null
+    village?: StringNullableWithAggregatesFilter<"JobSeekerProfile"> | string | null
+    rt?: StringNullableWithAggregatesFilter<"JobSeekerProfile"> | string | null
+    rw?: StringNullableWithAggregatesFilter<"JobSeekerProfile"> | string | null
+    address?: StringNullableWithAggregatesFilter<"JobSeekerProfile"> | string | null
     educationLevel?: StringNullableWithAggregatesFilter<"JobSeekerProfile"> | string | null
     educationMajor?: StringNullableWithAggregatesFilter<"JobSeekerProfile"> | string | null
     skills?: StringNullableListFilter<"JobSeekerProfile">
+    interests?: StringNullableListFilter<"JobSeekerProfile">
     desiredWorkField?: StringNullableWithAggregatesFilter<"JobSeekerProfile"> | string | null
     employmentStatus?: StringNullableWithAggregatesFilter<"JobSeekerProfile"> | string | null
     jobSeekingStatus?: StringNullableWithAggregatesFilter<"JobSeekerProfile"> | string | null
@@ -7948,13 +8058,19 @@ export namespace Prisma {
 
   export type JobSeekerProfileCreateInput = {
     id?: string
+    nik?: string | null
     birthDate?: Date | string | null
-    address?: string | null
-    village?: string | null
+    provinsi?: string | null
+    kota?: string | null
     district?: string | null
+    village?: string | null
+    rt?: string | null
+    rw?: string | null
+    address?: string | null
     educationLevel?: string | null
     educationMajor?: string | null
     skills?: JobSeekerProfileCreateskillsInput | string[]
+    interests?: JobSeekerProfileCreateinterestsInput | string[]
     desiredWorkField?: string | null
     employmentStatus?: string | null
     jobSeekingStatus?: string | null
@@ -7971,13 +8087,19 @@ export namespace Prisma {
   export type JobSeekerProfileUncheckedCreateInput = {
     id?: string
     userId: string
+    nik?: string | null
     birthDate?: Date | string | null
-    address?: string | null
-    village?: string | null
+    provinsi?: string | null
+    kota?: string | null
     district?: string | null
+    village?: string | null
+    rt?: string | null
+    rw?: string | null
+    address?: string | null
     educationLevel?: string | null
     educationMajor?: string | null
     skills?: JobSeekerProfileCreateskillsInput | string[]
+    interests?: JobSeekerProfileCreateinterestsInput | string[]
     desiredWorkField?: string | null
     employmentStatus?: string | null
     jobSeekingStatus?: string | null
@@ -7992,13 +8114,19 @@ export namespace Prisma {
 
   export type JobSeekerProfileUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    nik?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    address?: NullableStringFieldUpdateOperationsInput | string | null
-    village?: NullableStringFieldUpdateOperationsInput | string | null
+    provinsi?: NullableStringFieldUpdateOperationsInput | string | null
+    kota?: NullableStringFieldUpdateOperationsInput | string | null
     district?: NullableStringFieldUpdateOperationsInput | string | null
+    village?: NullableStringFieldUpdateOperationsInput | string | null
+    rt?: NullableStringFieldUpdateOperationsInput | string | null
+    rw?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     educationLevel?: NullableStringFieldUpdateOperationsInput | string | null
     educationMajor?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: JobSeekerProfileUpdateskillsInput | string[]
+    interests?: JobSeekerProfileUpdateinterestsInput | string[]
     desiredWorkField?: NullableStringFieldUpdateOperationsInput | string | null
     employmentStatus?: NullableStringFieldUpdateOperationsInput | string | null
     jobSeekingStatus?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8015,13 +8143,19 @@ export namespace Prisma {
   export type JobSeekerProfileUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    nik?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    address?: NullableStringFieldUpdateOperationsInput | string | null
-    village?: NullableStringFieldUpdateOperationsInput | string | null
+    provinsi?: NullableStringFieldUpdateOperationsInput | string | null
+    kota?: NullableStringFieldUpdateOperationsInput | string | null
     district?: NullableStringFieldUpdateOperationsInput | string | null
+    village?: NullableStringFieldUpdateOperationsInput | string | null
+    rt?: NullableStringFieldUpdateOperationsInput | string | null
+    rw?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     educationLevel?: NullableStringFieldUpdateOperationsInput | string | null
     educationMajor?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: JobSeekerProfileUpdateskillsInput | string[]
+    interests?: JobSeekerProfileUpdateinterestsInput | string[]
     desiredWorkField?: NullableStringFieldUpdateOperationsInput | string | null
     employmentStatus?: NullableStringFieldUpdateOperationsInput | string | null
     jobSeekingStatus?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8037,13 +8171,19 @@ export namespace Prisma {
   export type JobSeekerProfileCreateManyInput = {
     id?: string
     userId: string
+    nik?: string | null
     birthDate?: Date | string | null
-    address?: string | null
-    village?: string | null
+    provinsi?: string | null
+    kota?: string | null
     district?: string | null
+    village?: string | null
+    rt?: string | null
+    rw?: string | null
+    address?: string | null
     educationLevel?: string | null
     educationMajor?: string | null
     skills?: JobSeekerProfileCreateskillsInput | string[]
+    interests?: JobSeekerProfileCreateinterestsInput | string[]
     desiredWorkField?: string | null
     employmentStatus?: string | null
     jobSeekingStatus?: string | null
@@ -8056,13 +8196,19 @@ export namespace Prisma {
 
   export type JobSeekerProfileUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    nik?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    address?: NullableStringFieldUpdateOperationsInput | string | null
-    village?: NullableStringFieldUpdateOperationsInput | string | null
+    provinsi?: NullableStringFieldUpdateOperationsInput | string | null
+    kota?: NullableStringFieldUpdateOperationsInput | string | null
     district?: NullableStringFieldUpdateOperationsInput | string | null
+    village?: NullableStringFieldUpdateOperationsInput | string | null
+    rt?: NullableStringFieldUpdateOperationsInput | string | null
+    rw?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     educationLevel?: NullableStringFieldUpdateOperationsInput | string | null
     educationMajor?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: JobSeekerProfileUpdateskillsInput | string[]
+    interests?: JobSeekerProfileUpdateinterestsInput | string[]
     desiredWorkField?: NullableStringFieldUpdateOperationsInput | string | null
     employmentStatus?: NullableStringFieldUpdateOperationsInput | string | null
     jobSeekingStatus?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8076,13 +8222,19 @@ export namespace Prisma {
   export type JobSeekerProfileUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    nik?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    address?: NullableStringFieldUpdateOperationsInput | string | null
-    village?: NullableStringFieldUpdateOperationsInput | string | null
+    provinsi?: NullableStringFieldUpdateOperationsInput | string | null
+    kota?: NullableStringFieldUpdateOperationsInput | string | null
     district?: NullableStringFieldUpdateOperationsInput | string | null
+    village?: NullableStringFieldUpdateOperationsInput | string | null
+    rt?: NullableStringFieldUpdateOperationsInput | string | null
+    rw?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     educationLevel?: NullableStringFieldUpdateOperationsInput | string | null
     educationMajor?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: JobSeekerProfileUpdateskillsInput | string[]
+    interests?: JobSeekerProfileUpdateinterestsInput | string[]
     desiredWorkField?: NullableStringFieldUpdateOperationsInput | string | null
     employmentStatus?: NullableStringFieldUpdateOperationsInput | string | null
     jobSeekingStatus?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8526,13 +8678,19 @@ export namespace Prisma {
   export type JobSeekerProfileCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    nik?: SortOrder
     birthDate?: SortOrder
-    address?: SortOrder
-    village?: SortOrder
+    provinsi?: SortOrder
+    kota?: SortOrder
     district?: SortOrder
+    village?: SortOrder
+    rt?: SortOrder
+    rw?: SortOrder
+    address?: SortOrder
     educationLevel?: SortOrder
     educationMajor?: SortOrder
     skills?: SortOrder
+    interests?: SortOrder
     desiredWorkField?: SortOrder
     employmentStatus?: SortOrder
     jobSeekingStatus?: SortOrder
@@ -8546,10 +8704,15 @@ export namespace Prisma {
   export type JobSeekerProfileMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    nik?: SortOrder
     birthDate?: SortOrder
-    address?: SortOrder
-    village?: SortOrder
+    provinsi?: SortOrder
+    kota?: SortOrder
     district?: SortOrder
+    village?: SortOrder
+    rt?: SortOrder
+    rw?: SortOrder
+    address?: SortOrder
     educationLevel?: SortOrder
     educationMajor?: SortOrder
     desiredWorkField?: SortOrder
@@ -8565,10 +8728,15 @@ export namespace Prisma {
   export type JobSeekerProfileMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    nik?: SortOrder
     birthDate?: SortOrder
-    address?: SortOrder
-    village?: SortOrder
+    provinsi?: SortOrder
+    kota?: SortOrder
     district?: SortOrder
+    village?: SortOrder
+    rt?: SortOrder
+    rw?: SortOrder
+    address?: SortOrder
     educationLevel?: SortOrder
     educationMajor?: SortOrder
     desiredWorkField?: SortOrder
@@ -8813,6 +8981,10 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type JobSeekerProfileCreateinterestsInput = {
+    set: string[]
+  }
+
   export type UserCreateNestedOneWithoutJobSeekerProfileInput = {
     create?: XOR<UserCreateWithoutJobSeekerProfileInput, UserUncheckedCreateWithoutJobSeekerProfileInput>
     connectOrCreate?: UserCreateOrConnectWithoutJobSeekerProfileInput
@@ -8848,6 +9020,11 @@ export namespace Prisma {
   }
 
   export type JobSeekerProfileUpdateskillsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type JobSeekerProfileUpdateinterestsInput = {
     set?: string[]
     push?: string | string[]
   }
@@ -9166,13 +9343,19 @@ export namespace Prisma {
 
   export type JobSeekerProfileCreateWithoutUserInput = {
     id?: string
+    nik?: string | null
     birthDate?: Date | string | null
-    address?: string | null
-    village?: string | null
+    provinsi?: string | null
+    kota?: string | null
     district?: string | null
+    village?: string | null
+    rt?: string | null
+    rw?: string | null
+    address?: string | null
     educationLevel?: string | null
     educationMajor?: string | null
     skills?: JobSeekerProfileCreateskillsInput | string[]
+    interests?: JobSeekerProfileCreateinterestsInput | string[]
     desiredWorkField?: string | null
     employmentStatus?: string | null
     jobSeekingStatus?: string | null
@@ -9187,13 +9370,19 @@ export namespace Prisma {
 
   export type JobSeekerProfileUncheckedCreateWithoutUserInput = {
     id?: string
+    nik?: string | null
     birthDate?: Date | string | null
-    address?: string | null
-    village?: string | null
+    provinsi?: string | null
+    kota?: string | null
     district?: string | null
+    village?: string | null
+    rt?: string | null
+    rw?: string | null
+    address?: string | null
     educationLevel?: string | null
     educationMajor?: string | null
     skills?: JobSeekerProfileCreateskillsInput | string[]
+    interests?: JobSeekerProfileCreateinterestsInput | string[]
     desiredWorkField?: string | null
     employmentStatus?: string | null
     jobSeekingStatus?: string | null
@@ -9256,13 +9445,19 @@ export namespace Prisma {
 
   export type JobSeekerProfileUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    nik?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    address?: NullableStringFieldUpdateOperationsInput | string | null
-    village?: NullableStringFieldUpdateOperationsInput | string | null
+    provinsi?: NullableStringFieldUpdateOperationsInput | string | null
+    kota?: NullableStringFieldUpdateOperationsInput | string | null
     district?: NullableStringFieldUpdateOperationsInput | string | null
+    village?: NullableStringFieldUpdateOperationsInput | string | null
+    rt?: NullableStringFieldUpdateOperationsInput | string | null
+    rw?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     educationLevel?: NullableStringFieldUpdateOperationsInput | string | null
     educationMajor?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: JobSeekerProfileUpdateskillsInput | string[]
+    interests?: JobSeekerProfileUpdateinterestsInput | string[]
     desiredWorkField?: NullableStringFieldUpdateOperationsInput | string | null
     employmentStatus?: NullableStringFieldUpdateOperationsInput | string | null
     jobSeekingStatus?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9277,13 +9472,19 @@ export namespace Prisma {
 
   export type JobSeekerProfileUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    nik?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    address?: NullableStringFieldUpdateOperationsInput | string | null
-    village?: NullableStringFieldUpdateOperationsInput | string | null
+    provinsi?: NullableStringFieldUpdateOperationsInput | string | null
+    kota?: NullableStringFieldUpdateOperationsInput | string | null
     district?: NullableStringFieldUpdateOperationsInput | string | null
+    village?: NullableStringFieldUpdateOperationsInput | string | null
+    rt?: NullableStringFieldUpdateOperationsInput | string | null
+    rw?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     educationLevel?: NullableStringFieldUpdateOperationsInput | string | null
     educationMajor?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: JobSeekerProfileUpdateskillsInput | string[]
+    interests?: JobSeekerProfileUpdateinterestsInput | string[]
     desiredWorkField?: NullableStringFieldUpdateOperationsInput | string | null
     employmentStatus?: NullableStringFieldUpdateOperationsInput | string | null
     jobSeekingStatus?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9585,13 +9786,19 @@ export namespace Prisma {
 
   export type JobSeekerProfileCreateWithoutExperiencesInput = {
     id?: string
+    nik?: string | null
     birthDate?: Date | string | null
-    address?: string | null
-    village?: string | null
+    provinsi?: string | null
+    kota?: string | null
     district?: string | null
+    village?: string | null
+    rt?: string | null
+    rw?: string | null
+    address?: string | null
     educationLevel?: string | null
     educationMajor?: string | null
     skills?: JobSeekerProfileCreateskillsInput | string[]
+    interests?: JobSeekerProfileCreateinterestsInput | string[]
     desiredWorkField?: string | null
     employmentStatus?: string | null
     jobSeekingStatus?: string | null
@@ -9607,13 +9814,19 @@ export namespace Prisma {
   export type JobSeekerProfileUncheckedCreateWithoutExperiencesInput = {
     id?: string
     userId: string
+    nik?: string | null
     birthDate?: Date | string | null
-    address?: string | null
-    village?: string | null
+    provinsi?: string | null
+    kota?: string | null
     district?: string | null
+    village?: string | null
+    rt?: string | null
+    rw?: string | null
+    address?: string | null
     educationLevel?: string | null
     educationMajor?: string | null
     skills?: JobSeekerProfileCreateskillsInput | string[]
+    interests?: JobSeekerProfileCreateinterestsInput | string[]
     desiredWorkField?: string | null
     employmentStatus?: string | null
     jobSeekingStatus?: string | null
@@ -9643,13 +9856,19 @@ export namespace Prisma {
 
   export type JobSeekerProfileUpdateWithoutExperiencesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    nik?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    address?: NullableStringFieldUpdateOperationsInput | string | null
-    village?: NullableStringFieldUpdateOperationsInput | string | null
+    provinsi?: NullableStringFieldUpdateOperationsInput | string | null
+    kota?: NullableStringFieldUpdateOperationsInput | string | null
     district?: NullableStringFieldUpdateOperationsInput | string | null
+    village?: NullableStringFieldUpdateOperationsInput | string | null
+    rt?: NullableStringFieldUpdateOperationsInput | string | null
+    rw?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     educationLevel?: NullableStringFieldUpdateOperationsInput | string | null
     educationMajor?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: JobSeekerProfileUpdateskillsInput | string[]
+    interests?: JobSeekerProfileUpdateinterestsInput | string[]
     desiredWorkField?: NullableStringFieldUpdateOperationsInput | string | null
     employmentStatus?: NullableStringFieldUpdateOperationsInput | string | null
     jobSeekingStatus?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9665,13 +9884,19 @@ export namespace Prisma {
   export type JobSeekerProfileUncheckedUpdateWithoutExperiencesInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    nik?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    address?: NullableStringFieldUpdateOperationsInput | string | null
-    village?: NullableStringFieldUpdateOperationsInput | string | null
+    provinsi?: NullableStringFieldUpdateOperationsInput | string | null
+    kota?: NullableStringFieldUpdateOperationsInput | string | null
     district?: NullableStringFieldUpdateOperationsInput | string | null
+    village?: NullableStringFieldUpdateOperationsInput | string | null
+    rt?: NullableStringFieldUpdateOperationsInput | string | null
+    rw?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     educationLevel?: NullableStringFieldUpdateOperationsInput | string | null
     educationMajor?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: JobSeekerProfileUpdateskillsInput | string[]
+    interests?: JobSeekerProfileUpdateinterestsInput | string[]
     desiredWorkField?: NullableStringFieldUpdateOperationsInput | string | null
     employmentStatus?: NullableStringFieldUpdateOperationsInput | string | null
     jobSeekingStatus?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9685,13 +9910,19 @@ export namespace Prisma {
 
   export type JobSeekerProfileCreateWithoutDocumentsInput = {
     id?: string
+    nik?: string | null
     birthDate?: Date | string | null
-    address?: string | null
-    village?: string | null
+    provinsi?: string | null
+    kota?: string | null
     district?: string | null
+    village?: string | null
+    rt?: string | null
+    rw?: string | null
+    address?: string | null
     educationLevel?: string | null
     educationMajor?: string | null
     skills?: JobSeekerProfileCreateskillsInput | string[]
+    interests?: JobSeekerProfileCreateinterestsInput | string[]
     desiredWorkField?: string | null
     employmentStatus?: string | null
     jobSeekingStatus?: string | null
@@ -9707,13 +9938,19 @@ export namespace Prisma {
   export type JobSeekerProfileUncheckedCreateWithoutDocumentsInput = {
     id?: string
     userId: string
+    nik?: string | null
     birthDate?: Date | string | null
-    address?: string | null
-    village?: string | null
+    provinsi?: string | null
+    kota?: string | null
     district?: string | null
+    village?: string | null
+    rt?: string | null
+    rw?: string | null
+    address?: string | null
     educationLevel?: string | null
     educationMajor?: string | null
     skills?: JobSeekerProfileCreateskillsInput | string[]
+    interests?: JobSeekerProfileCreateinterestsInput | string[]
     desiredWorkField?: string | null
     employmentStatus?: string | null
     jobSeekingStatus?: string | null
@@ -9743,13 +9980,19 @@ export namespace Prisma {
 
   export type JobSeekerProfileUpdateWithoutDocumentsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    nik?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    address?: NullableStringFieldUpdateOperationsInput | string | null
-    village?: NullableStringFieldUpdateOperationsInput | string | null
+    provinsi?: NullableStringFieldUpdateOperationsInput | string | null
+    kota?: NullableStringFieldUpdateOperationsInput | string | null
     district?: NullableStringFieldUpdateOperationsInput | string | null
+    village?: NullableStringFieldUpdateOperationsInput | string | null
+    rt?: NullableStringFieldUpdateOperationsInput | string | null
+    rw?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     educationLevel?: NullableStringFieldUpdateOperationsInput | string | null
     educationMajor?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: JobSeekerProfileUpdateskillsInput | string[]
+    interests?: JobSeekerProfileUpdateinterestsInput | string[]
     desiredWorkField?: NullableStringFieldUpdateOperationsInput | string | null
     employmentStatus?: NullableStringFieldUpdateOperationsInput | string | null
     jobSeekingStatus?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9765,13 +10008,19 @@ export namespace Prisma {
   export type JobSeekerProfileUncheckedUpdateWithoutDocumentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    nik?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    address?: NullableStringFieldUpdateOperationsInput | string | null
-    village?: NullableStringFieldUpdateOperationsInput | string | null
+    provinsi?: NullableStringFieldUpdateOperationsInput | string | null
+    kota?: NullableStringFieldUpdateOperationsInput | string | null
     district?: NullableStringFieldUpdateOperationsInput | string | null
+    village?: NullableStringFieldUpdateOperationsInput | string | null
+    rt?: NullableStringFieldUpdateOperationsInput | string | null
+    rw?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     educationLevel?: NullableStringFieldUpdateOperationsInput | string | null
     educationMajor?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: JobSeekerProfileUpdateskillsInput | string[]
+    interests?: JobSeekerProfileUpdateinterestsInput | string[]
     desiredWorkField?: NullableStringFieldUpdateOperationsInput | string | null
     employmentStatus?: NullableStringFieldUpdateOperationsInput | string | null
     jobSeekingStatus?: NullableStringFieldUpdateOperationsInput | string | null

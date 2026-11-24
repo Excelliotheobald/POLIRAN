@@ -1,5 +1,6 @@
 "use client";
 
+import "leaflet/dist/leaflet.css";
 import { LocateFixed, MapPin, Search } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 
@@ -39,6 +40,7 @@ export default function LocationPicker({ onLocationSelect }: LocationPickerProps
 
   useEffect(() => {
     let disposed = false;
+    let resizeObserver: ResizeObserver | null = null;
 
     async function initializeMap() {
       const L = await import("leaflet");
@@ -106,6 +108,17 @@ export default function LocationPicker({ onLocationSelect }: LocationPickerProps
       });
 
       mapRef.current = map;
+
+      resizeObserver = new ResizeObserver(() => {
+        map.invalidateSize();
+      });
+      if (containerRef.current) {
+        resizeObserver.observe(containerRef.current);
+      }
+
+      setTimeout(() => {
+        map.invalidateSize();
+      }, 200);
     }
 
     void initializeMap().catch(() => {
@@ -113,6 +126,7 @@ export default function LocationPicker({ onLocationSelect }: LocationPickerProps
     });
     return () => {
       disposed = true;
+      resizeObserver?.disconnect();
       mapRef.current?.remove();
       mapRef.current = null;
       markerRef.current = null;

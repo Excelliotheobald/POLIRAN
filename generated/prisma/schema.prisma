@@ -70,26 +70,33 @@ model JobSeekerProfile {
   id     String @id @default(cuid())
   userId String @unique
 
-  // Data pribadi
+  // Identitas
+  nik       String?   @unique
   birthDate DateTime? @db.Date
-  address   String?
-  village   String?
-  district  String?
+
+  // Alamat
+  provinsi String?
+  kota     String?
+  district String?
+  village  String?
+  rt       String?
+  rw       String?
+  address  String?
 
   // Pendidikan
   educationLevel String?
   educationMajor String?
 
-  // Keahlian
-  skills String[] @default([])
+  // Keahlian dan minat
+  skills    String[] @default([])
+  interests String[] @default([])
 
-  // Informasi pekerjaan
+  // Pekerjaan
   desiredWorkField String?
-
   employmentStatus String?
   jobSeekingStatus String?
 
-  // Verifikasi profil
+  // Verifikasi
   verificationStatus VerificationStatus @default(PENDING)
   verificationNote   String?
   verifiedAt         DateTime?

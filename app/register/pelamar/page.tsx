@@ -106,8 +106,10 @@ export default function RegisterPage() {
         setIsSubmitting(false);
         return;
       }
-      toast.success("Pendaftaran berhasil! Silakan masuk dengan akun Anda.");
-      router.push("/login");
+      sessionStorage.setItem("poliranUserId", data.user.id);
+      sessionStorage.setItem("poliranUserName", data.user.name);
+      toast.success("Pendaftaran berhasil! Selanjutnya lengkapi profil pekerjaan.");
+      router.push("/lengkapi-profil");
     } catch (err) {
       console.error(err);
       setFormError("Terjadi kesalahan jaringan. Silakan coba lagi.");

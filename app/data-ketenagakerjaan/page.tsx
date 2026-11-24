@@ -1,12 +1,13 @@
+"use client";
+
 import Link from "next/link";
-import MainFooter from "@/components/MainFooter";
-import MainHeader from "@/components/MainHeader";
+import { useState, useRef, useEffect } from "react";
 
 const summary = [
-  { icon: "groups", value: "20.220 Jiwa", label: "Total Terdata" },
-  { icon: "work_history", value: "14.800 Jiwa", label: "Berhasil Bekerja" },
-  { icon: "trending_up", value: "73,2%", label: "Tingkat Penyerapan" },
-  { icon: "speed", value: "18 Hari", label: "Rerata Waktu Salur" },
+  { icon: "groups", value: "20.220", unit: "Jiwa", label: "Total Terdata" },
+  { icon: "work_history", value: "14.800", unit: "Jiwa", label: "Berhasil Bekerja" },
+  { icon: "trending_up", value: "73,2%", unit: "", label: "Tingkat Penyerapan" },
+  { icon: "speed", value: "18", unit: "Hari", label: "Rerata Waktu Salur" },
 ];
 
 const areas = [
@@ -24,7 +25,13 @@ const industries = [
   { icon: "storefront", name: "F&B & Ritel Modern", rate: 18, total: "2.664", color: "bg-slate-400" },
 ];
 
-function Icon({ name, className = "" }: { name: string; className?: string }) {
+const chartData = {
+  months: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt"],
+  employment: [42, 48, 52, 56, 60, 64, 67, 70, 72, 73.2],
+  seekers: [85, 78, 72, 68, 62, 58, 54, 50, 47, 45],
+};
+
+function Icon({ name, className = "", "aria-label": ariaLabel, style }: { name: string; className?: string; "aria-label"?: string; style?: React.CSSProperties }) {
   const common = { fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
   const glyphs: Record<string, React.ReactNode> = {
     groups: <><circle cx="9" cy="8" r="3" /><path d="M3 19c0-3 2.5-5 6-5s6 2 6 5M16 5.5a3 3 0 0 1 0 5.8M17 14c2.5.5 4 2.2 4 5" /></>,
@@ -50,103 +57,405 @@ function Icon({ name, className = "" }: { name: string; className?: string }) {
     storefront: <><path d="M3 10v10h18V10M2 10l2-7h16l2 7M2 10a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 2 0M9 20v-6h6v6" /></>,
   };
 
-  return <svg aria-hidden="true" viewBox="0 0 24 24" className={`inline-block h-[1em] w-[1em] shrink-0 ${className}`} {...common}>{glyphs[name] ?? <circle cx="12" cy="12" r="8" />}</svg>;
+  return (
+    <svg
+      aria-hidden={!ariaLabel}
+      aria-label={ariaLabel}
+      viewBox="0 0 24 24"
+      className={`inline-block h-[1em] w-[1em] shrink-0 ${className}`}
+      style={style}
+      {...common}
+    >
+      {glyphs[name] ?? <circle cx="12" cy="12" r="8" />}
+    </svg>
+  );
+}
+
+function Tooltip({ x, y, label, value, unit, color, visible }: { x: number; y: number; label: string; value: number | string; unit: string; color: string; visible: boolean }) {
+  if (!visible) return null;
+  return (
+    <g pointer-events="none">
+      <rect
+        x={x - 70}
+        y={y - 50}
+        width="140"
+        height="48"
+        rx="6"
+        fill="#0b1c30"
+        stroke={color}
+        strokeWidth="1"
+        filter="drop-shadow(0 4px 12px rgba(0,0,0,0.3))"
+      />
+      <text x={x} y={y - 28} textAnchor="middle" fill="white" fontSize="11" fontWeight="600" fontFamily="system-ui, sans-serif">
+        {label}
+      </text>
+      <text x={x} y={y - 12} textAnchor="middle" fill="white" fontSize="16" fontWeight="700" fontFamily="system-ui, sans-serif">
+        {value} <tspan fontSize="12" fontWeight="400" fill="#94a3b8">{unit}</tspan>
+      </text>
+    </g>
+  );
 }
 
 function EmploymentChart() {
+  const svgRef = useRef<SVGSVGElement>(null);
+  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
+  const [focusIndex, setFocusIndex] = useState<number | null>(null);
+  const [svgRect, setSvgRect] = useState<DOMRect | null>(null);
+
+  useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg) return;
+    const rect = svg.getBoundingClientRect();
+    setSvgRect(rect);
+    const onResize = () => setSvgRect(svg.getBoundingClientRect());
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  const handleMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
+    if (!svgRect) return;
+    const rect = svgRect;
+    const x = e.clientX - rect.left;
+    const chartLeft = 90;
+    const chartRight = 930;
+    const chartWidth = chartRight - chartLeft;
+    if (x < chartLeft || x > chartRight) {
+      setHoverIndex(null);
+      return;
+    }
+    const ratio = (x - chartLeft) / chartWidth;
+    const index = Math.round(ratio * (chartData.months.length - 1));
+    setHoverIndex(Math.max(0, Math.min(chartData.months.length - 1, index)));
+  };
+
+  const handleMouseLeave = () => setHoverIndex(null);
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      setFocusIndex((i) => (i === null ? 0 : Math.min(i + 1, chartData.months.length - 1)));
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      setFocusIndex((i) => (i === null ? chartData.months.length - 1 : Math.max(i - 1, 0)));
+    } else if (e.key === "Escape") {
+      setFocusIndex(null);
+    }
+  };
+  const handleBlur = () => setFocusIndex(null);
+
+  const activeIndex = focusIndex !== null ? focusIndex : hoverIndex;
+  const showTooltip = activeIndex !== null;
+
+  const chartLeft = 90;
+  const chartRight = 930;
+  const chartTop = 60;
+  const chartBottom = 360;
+  const chartHeight = chartBottom - chartTop;
+
+  const getPointX = (index: number) => chartLeft + (index / (chartData.months.length - 1)) * (chartRight - chartLeft);
+  const getPointY = (value: number, minVal: number, maxVal: number) => chartBottom - ((value - minVal) / (maxVal - minVal)) * chartHeight;
+
+  const minVal = 0;
+  const maxVal = 100;
+
   return (
-    <div className="overflow-x-auto rounded-xl border border-slate-100 bg-white p-3 sm:p-6">
-      <svg viewBox="0 0 1000 450" role="img" aria-label="Grafik tren penyerapan tenaga kerja dan pencari kerja sepanjang tahun 2026" className="h-auto min-w-[680px] w-full">
-        <defs>
-          <linearGradient id="employmentFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#ff432a" stopOpacity=".2" /><stop offset="100%" stopColor="#ff432a" stopOpacity="0" /></linearGradient>
-          <linearGradient id="searchFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#42cfa5" stopOpacity=".2" /><stop offset="100%" stopColor="#42cfa5" stopOpacity="0" /></linearGradient>
-        </defs>
-        {[60, 135, 210, 285, 360].map((y) => <line key={y} x1="90" y1={y} x2="930" y2={y} stroke="#e2e8f0" strokeDasharray="5 6" />)}
-        <polygon points="90,360 180,320 270,300 360,260 450,245 540,220 630,175 720,150 810,110 900,75 900,360" fill="url(#employmentFill)" />
-        <polygon points="90,360 180,330 270,280 360,310 450,240 540,190 630,210 720,125 810,185 900,145 900,360" fill="url(#searchFill)" />
-        <polyline points="90,360 180,320 270,300 360,260 450,245 540,220 630,175 720,150 810,110 900,75" fill="none" stroke="#ff432a" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-        <polyline points="90,360 180,330 270,280 360,310 450,240 540,190 630,210 720,125 810,185 900,145" fill="none" stroke="#42cfa5" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-        {["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt"].map((month, i) => <text key={month} x={90 + i * 90} y="395" textAnchor="middle" fill="#64748b" fontSize="13">{month}</text>)}
-        {["100%", "75%", "50%", "25%", "0%"].map((label, i) => <text key={label} x="52" y={65 + i * 75} textAnchor="end" fill="#64748b" fontSize="12">{label}</text>)}
-      </svg>
+    <div className="overflow-x-auto">
+      <div className="relative min-w-[650px]" role="region" aria-label="Grafik tren penyerapan tenaga kerja TA 2026" tabIndex={0} onKeyDown={handleKeyDown} onBlur={handleBlur}>
+        <svg
+          ref={svgRef}
+          viewBox="0 0 1000 450"
+          role="img"
+          aria-label="Grafik garis tren penyerapan tenaga kerja (merah) dan pencari kerja terdata (hijau) bulan Jan-Okt 2026"
+          className="h-auto w-full max-w-full"
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          onFocus={() => setFocusIndex(0)}
+        >
+          <defs>
+            <linearGradient id="employmentFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#ff432a" stopOpacity=".15" />
+              <stop offset="100%" stopColor="#ff432a" stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id="searchFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#42cfa5" stopOpacity=".15" />
+              <stop offset="100%" stopColor="#42cfa5" stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id="employmentStroke" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#e03822" />
+              <stop offset="100%" stopColor="#ff5a3a" />
+            </linearGradient>
+            <linearGradient id="searchStroke" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#2db88f" />
+              <stop offset="100%" stopColor="#42cfa5" />
+            </linearGradient>
+          </defs>
+
+          {/* Grid lines */}
+          {[20, 40, 60, 80, 100].map((pct) => {
+            const y = getPointY(pct, minVal, maxVal);
+            return <line key={pct} x1={chartLeft} y1={y} x2={chartRight} y2={y} stroke="#e2e8f0" strokeDasharray="4 6" strokeWidth="0.5" />;
+          })}
+
+          {/* Y-axis labels */}
+          {["100%", "80%", "60%", "40%", "20%", "0%"].map((label, i) => {
+            const y = getPointY(100 - i * 20, minVal, maxVal);
+            return <text key={label} x={chartLeft - 12} y={y + 4} textAnchor="end" fill="#64748b" fontSize="11" fontFamily="system-ui, sans-serif" fontWeight="500">{label}</text>;
+          })}
+
+          {/* Area fills */}
+          <polygon
+            points={chartData.employment.map((v, i) => `${getPointX(i)},${getPointY(v, minVal, maxVal)}`).concat(`${chartRight},${chartBottom}`, `${chartLeft},${chartBottom}`).join(" ")}
+            fill="url(#employmentFill)"
+          />
+          <polygon
+            points={chartData.seekers.map((v, i) => `${getPointX(i)},${getPointY(v, minVal, maxVal)}`).concat(`${chartRight},${chartBottom}`, `${chartLeft},${chartBottom}`).join(" ")}
+            fill="url(#searchFill)"
+          />
+
+          {/* Lines */}
+          <polyline
+            points={chartData.employment.map((v, i) => `${getPointX(i)},${getPointY(v, minVal, maxVal)}`).join(" ")}
+            fill="none"
+            stroke="url(#employmentStroke)"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <polyline
+            points={chartData.seekers.map((v, i) => `${getPointX(i)},${getPointY(v, minVal, maxVal)}`).join(" ")}
+            fill="none"
+            stroke="url(#searchStroke)"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+
+          {/* Data points */}
+          {chartData.months.map((month, i) => {
+            const x = getPointX(i);
+            const yEmp = getPointY(chartData.employment[i], minVal, maxVal);
+            const ySeek = getPointY(chartData.seekers[i], minVal, maxVal);
+            const isActive = activeIndex === i;
+            return (
+              <g key={month}>
+                <circle
+                  cx={x}
+                  cy={yEmp}
+                  r={isActive ? 6 : 4}
+                  fill="#ff432a"
+                  stroke="white"
+                  strokeWidth={isActive ? 3 : 2}
+                  opacity={isActive ? 1 : 0}
+                  style={{ pointerEvents: "none" }}
+                />
+                <circle
+                  cx={x}
+                  cy={ySeek}
+                  r={isActive ? 6 : 4}
+                  fill="#42cfa5"
+                  stroke="white"
+                  strokeWidth={isActive ? 3 : 2}
+                  opacity={isActive ? 1 : 0}
+                  style={{ pointerEvents: "none" }}
+                />
+                {isActive && (
+                  <>
+                    <circle cx={x} cy={yEmp} r={6} fill="none" stroke="#ff432a" strokeWidth="2" strokeDasharray="4 4" />
+                    <circle cx={x} cy={ySeek} r={6} fill="none" stroke="#42cfa5" strokeWidth="2" strokeDasharray="4 4" />
+                  </>
+                )}
+              </g>
+            );
+          })}
+
+          {/* X-axis labels */}
+          {chartData.months.map((month, i) => (
+            <text key={month} x={getPointX(i)} y={chartBottom + 28} textAnchor="middle" fill="#64748b" fontSize="12" fontFamily="system-ui, sans-serif" fontWeight={activeIndex === i ? "600" : "400"}>
+              {month}
+            </text>
+          ))}
+
+          {/* Tooltip */}
+          {showTooltip && activeIndex !== null && (
+            <Tooltip
+              x={getPointX(activeIndex)}
+              y={getPointY(chartData.employment[activeIndex], minVal, maxVal) - 10}
+              label={`Penyerapan: ${chartData.months[activeIndex]}`}
+              value={chartData.employment[activeIndex].toFixed(1)}
+              unit="%"
+              color="#ff432a"
+              visible={true}
+            />
+          )}
+          {showTooltip && activeIndex !== null && (
+            <Tooltip
+              x={getPointX(activeIndex)}
+              y={getPointY(chartData.seekers[activeIndex], minVal, maxVal) + 58}
+              label={`Pencari kerja: ${chartData.months[activeIndex]}`}
+              value={chartData.seekers[activeIndex].toFixed(1)}
+              unit="%"
+              color="#42cfa5"
+              visible={true}
+            />
+          )}
+        </svg>
+
+        {/* Keyboard hint */}
+        <p className="sr-only">
+          Gunakan panah kiri/kanan untuk melihat detail per bulan. Tekan Escape untuk menutup.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function StatCard({ icon, value, unit, label }: { icon: string; value: string; unit: string; label: string }) {
+  return (
+    <article className="min-w-0 border-slate-200 px-4 py-4 first:border-l-0 sm:px-5 xl:border-l">
+      <div className="min-w-0">
+        <p className="text-2xl font-extrabold leading-none tracking-tight text-[#0b1c30] sm:text-[27px]">
+          {value} {unit && <span className="text-xs font-medium text-slate-500">{unit}</span>}
+        </p>
+        <p className="mt-2 flex items-center gap-1.5 text-[11px] font-medium text-slate-500">
+          <Icon name={icon} className="text-sm text-amber-600" aria-hidden="true" />
+          {label}
+        </p>
+      </div>
+    </article>
+  );
+}
+
+function AreaRow({ area }: { area: (typeof areas)[0] }) {
+  return (
+    <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b border-slate-100 py-2.5 text-xs last:border-b-0">
+      <div className="flex items-center gap-3 min-w-0">
+        <span className="font-semibold text-[#0b1c30] truncate">{area.name}</span>
+        <span className="text-slate-500 whitespace-nowrap">{area.total} terdata</span>
+      </div>
+      <div className="flex items-center justify-end gap-2 text-slate-600">
+        <span className="font-medium">{area.employed} bekerja</span>
+        <span className="min-w-12 rounded bg-amber-50 px-2 py-1 text-center font-bold text-amber-900">{area.rate}</span>
+      </div>
+    </div>
+  );
+}
+
+function IndustryBar({ industry }: { industry: (typeof industries)[0] }) {
+  return (
+    <div>
+      <div className="mb-1.5 flex items-center justify-between gap-2 text-xs">
+        <span className="flex items-center gap-1.5 font-semibold text-[#0b1c30]">
+          <Icon name={industry.icon} className="text-sm text-slate-500" aria-hidden="true" />
+          {industry.name} <span className="text-slate-500 font-normal">({industry.rate}%)</span>
+        </span>
+        <span className="font-bold text-[#0b1c30]">{industry.total}</span>
+      </div>
+      <div className="h-2 overflow-hidden rounded-full bg-slate-100" role="progressbar" aria-valuenow={industry.rate} aria-valuemin={0} aria-valuemax={100} aria-label={`${industry.name}: ${industry.rate}%`}>
+        <div className={`h-full rounded-full ${industry.color}`} style={{ width: `${industry.rate}%` }} aria-hidden="true">
+          <span className="sr-only">{industry.rate}%</span>
+        </div>
+      </div>
     </div>
   );
 }
 
 export default function DataKetenagakerjaanPage() {
   return (
-    <>
-      <MainHeader />
-      <main className="min-h-screen bg-[#f8f9ff] pt-20 text-[#0b1c30]">
-        <section className="bg-[#eff4ff] py-4">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <nav aria-label="Breadcrumb" className="mb-3 flex items-center gap-2 text-xs text-slate-500">
-              <Link href="/" className="inline-flex items-center gap-1 hover:text-slate-900"><Icon name="home" className="text-sm" />Beranda</Link>
-              <span aria-hidden="true">/</span><span className="font-semibold text-[#0b1c30]">Data Ketenagakerjaan & Statistik POLIRAN</span>
-            </nav>
-            <div className="flex flex-col gap-3 rounded-xl bg-[#000b1f] p-3 text-white shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-4">
-              <div className="flex items-center gap-3"><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-amber-300 text-[#000b1f]"><Icon name="sync" /></span><p className="text-sm"><strong className="text-amber-300">Data Real-Time:</strong> Terintegrasi Polrestabes, Bhabinkamtibmas, dan Disnaker RI.</p></div>
-              <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-[#132238] px-3 py-2 text-[11px] font-semibold text-amber-300"><Icon name="verified_user" className="text-sm" />Status Data: Terverifikasi Presisi 2026</span>
+    <div className="min-h-screen bg-[#f8fafc] pt-20 text-[#0b1c30]">
+      <section className="border-b border-slate-200 bg-[#eef3ff]">
+        <div className="mx-auto max-w-[1280px] px-4 pb-0 pt-8 sm:px-6 lg:px-8">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_330px] lg:items-end">
+            <div className="max-w-2xl pb-7">
+              <p className="mb-3 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-amber-800">
+                <span className="h-px w-7 bg-amber-500" aria-hidden="true" />
+                Ringkasan ketenagakerjaan
+              </p>
+              <h1 className="max-w-xl text-3xl font-extrabold leading-[1.08] tracking-tight text-[#0b1c30] sm:text-5xl">Data Ketenagakerjaan POLIRAN</h1>
+              <p className="mt-4 max-w-lg text-sm leading-6 text-slate-600">Pantauan penyaluran kerja dan pembinaan pencari kerja di wilayah hukum Polrestabes.</p>
             </div>
+            <aside className="relative overflow-hidden bg-[#0b1c30] px-5 pb-5 pt-4 text-white lg:mb-0" aria-label="Sorotan utama">
+              <span className="absolute right-4 top-3 text-5xl font-black leading-none text-white/5" aria-hidden="true">01</span>
+              <p className="relative text-[10px] font-bold uppercase tracking-[0.16em] text-amber-300">Tingkat penyerapan</p>
+              <p className="relative mt-2 text-5xl font-extrabold tracking-tight">73,2<span className="text-2xl text-amber-300">%</span></p>
+              <p className="relative mt-1 text-xs text-slate-300">14.800 dari 20.220 jiwa berhasil bekerja</p>
+            </aside>
           </div>
-        </section>
-
-        <section className="relative overflow-hidden bg-[#e5eeff] py-10 sm:py-14">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="mb-8 max-w-3xl">
-              <span className="mb-3 inline-flex items-center gap-2 rounded-full bg-amber-100 px-3 py-1 text-[11px] font-bold text-amber-900"><Icon name="query_stats" className="text-sm" />Statistik Presisi 2026</span>
-              <h1 className="text-3xl font-extrabold tracking-tight sm:text-5xl">Data Ketenagakerjaan POLIRAN</h1>
-              <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600 sm:text-lg">Pantauan data penyaluran kerja dan pengurangan angka pengangguran terverifikasi di wilayah hukum Polrestabes.</p>
-            </div>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
-              {summary.map((item) => <article key={item.label} className="flex items-center gap-3 rounded-xl border border-slate-200/70 bg-white p-4 shadow-sm"><Icon name={item.icon} className="text-3xl text-amber-600" /><div><p className="text-lg font-bold leading-tight sm:text-xl">{item.value}</p><p className="mt-1 text-xs text-slate-500">{item.label}</p></div></article>)}
-            </div>
+          <div className="grid grid-cols-2 border-t border-slate-300/80 bg-white/60 sm:grid-cols-4">
+            {summary.map((item) => (
+              <StatCard key={item.label} icon={item.icon} value={item.value} unit={item.unit} label={item.label} />
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section className="py-8 sm:py-12">
-          <div className="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
-            <section className="rounded-2xl border border-slate-200/70 bg-white p-4 shadow-sm sm:p-7" aria-labelledby="trend-title">
-              <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <div><h2 id="trend-title" className="text-xl font-bold sm:text-2xl">Tren Penyerapan Tenaga Kerja</h2><p className="mt-1 text-sm text-slate-500">Rasio kumulatif penyerapan tenaga kerja per bulan (TA 2026)</p></div>
-                <span className="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold"><Icon name="calendar_month" className="text-base text-amber-600" />TA 2026</span>
+      <section className="py-8 sm:py-10">
+        <div className="mx-auto max-w-[1280px] space-y-9 px-4 sm:px-6 lg:px-8">
+          <section className="grid gap-7 lg:grid-cols-[minmax(0,1fr)_230px]" aria-labelledby="trend-title">
+            <div className="min-w-0 border-t-2 border-[#0b1c30] pt-4">
+              <div className="mb-2 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <h2 id="trend-title" className="text-xl font-bold text-[#0b1c30]">Tren penyerapan tenaga kerja</h2>
+                  <p className="mt-1 text-xs text-slate-500">Persentase kumulatif per bulan · TA 2026</p>
+                </div>
+                <span className="text-xs font-semibold text-slate-500">Jan — Okt 2026</span>
               </div>
               <EmploymentChart />
-              <div className="mt-4 flex flex-col gap-3 border-t border-slate-100 pt-4 text-xs sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-                <div className="flex flex-wrap gap-x-5 gap-y-2"><span className="flex items-center gap-2 font-semibold"><i className="h-1.5 w-5 rounded-full bg-[#ff432a]" />Tren sudah bekerja</span><span className="flex items-center gap-2 text-slate-600"><i className="h-1.5 w-5 rounded-full bg-[#42cfa5]" />Fluktuasi pencari kerja terdata</span></div>
-                <span className="flex items-center gap-1.5 font-semibold text-amber-700"><Icon name="verified" className="text-sm" />Data terverifikasi Disnaker & Bhabinkamtibmas</span>
+              <div className="mt-2 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-slate-200 pt-3 text-xs" role="group" aria-label="Legenda grafik">
+                <span className="flex items-center gap-2 font-medium text-[#0b1c30]"><span className="h-1.5 w-5 rounded-full" style={{ background: "#e03822" }} aria-hidden="true" />Penyerapan tenaga kerja</span>
+                <span className="flex items-center gap-2 text-slate-600"><span className="h-1.5 w-5 rounded-full" style={{ background: "#2db88f" }} aria-hidden="true" />Pencari kerja terdata</span>
               </div>
+            </div>
+            <aside className="border-t border-slate-300 pt-4 lg:border-l lg:border-t-0 lg:pl-6" aria-label="Catatan grafik">
+              <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-amber-700">Bacaan singkat</p>
+              <p className="mt-3 text-2xl font-extrabold tracking-tight text-[#0b1c30]">+31,2 poin</p>
+              <p className="mt-1 text-xs leading-5 text-slate-600">Kenaikan tingkat penyerapan dari Januari sampai Oktober.</p>
+              <div className="mt-6 border-t border-slate-200 pt-3 text-xs text-slate-500">
+                <p className="font-semibold text-[#0b1c30]">Cara membaca</p>
+                <p className="mt-1 leading-5">Garis merah menunjukkan penyerapan. Garis hijau menunjukkan pencari kerja terdata.</p>
+              </div>
+            </aside>
+          </section>
+
+          <section className="border-y border-slate-200 py-5" aria-labelledby="status-title">
+            <div className="mb-4 flex items-end justify-between gap-4">
+              <div><p className="text-[10px] font-bold uppercase tracking-[0.16em] text-amber-700">Komposisi data</p><h2 id="status-title" className="mt-1 text-xl font-bold text-[#0b1c30]">Status penyaluran</h2></div>
+              <span className="hidden text-xs text-slate-500 sm:block">20.220 jiwa terdata</span>
+            </div>
+            <div className="divide-y divide-slate-200">
+              <div className="grid gap-3 py-4 sm:grid-cols-[180px_130px_minmax(0,1fr)_80px] sm:items-center">
+                <div className="flex items-center gap-2 font-semibold text-[#0b1c30]"><span className="h-2.5 w-2.5 rounded-full bg-amber-400" aria-hidden="true" />Sudah bekerja</div>
+                <p className="text-2xl font-extrabold text-[#0b1c30]">14.800 <span className="text-xs font-medium text-slate-500">Jiwa</span></p>
+                <div><div className="mb-1.5 flex justify-between text-[11px] text-slate-500"><span>Proporsi terdata</span><span className="font-bold text-amber-700">73,2%</span></div><div className="h-2 bg-slate-100"><div className="h-full bg-amber-400" style={{ width: "73.2%" }} /></div></div>
+                <Link href="#industri" className="text-xs font-bold text-[#0b1c30] hover:text-amber-700">Lihat sektor →</Link>
+              </div>
+              <div className="grid gap-3 py-4 sm:grid-cols-[180px_130px_minmax(0,1fr)_80px] sm:items-center">
+                <div className="flex items-center gap-2 font-semibold text-[#0b1c30]"><span className="h-2.5 w-2.5 rounded-full bg-slate-400" aria-hidden="true" />Belum bekerja</div>
+                <p className="text-2xl font-extrabold text-[#0b1c30]">5.420 <span className="text-xs font-medium text-slate-500">Jiwa</span></p>
+                <div><div className="mb-1.5 flex justify-between text-[11px] text-slate-500"><span>Dalam pembinaan</span><span className="font-bold text-slate-600">26,8%</span></div><div className="h-2 bg-slate-100"><div className="h-full bg-slate-400" style={{ width: "26.8%" }} /></div></div>
+                <Link href="/#pelatihan" className="text-xs font-bold text-[#0b1c30] hover:text-amber-700">Pelatihan →</Link>
+              </div>
+            </div>
+          </section>
+
+          <div className="grid gap-10 lg:grid-cols-2 lg:gap-12">
+            <section aria-labelledby="area-title">
+              <div className="mb-3 flex items-end justify-between gap-3 border-b-2 border-[#0b1c30] pb-3">
+                <h2 id="area-title" className="flex items-center gap-2 text-lg font-bold text-[#0b1c30]"><Icon name="location_on" className="text-lg text-amber-600" aria-hidden="true" />Sebaran wilayah Polsek</h2>
+                <span className="text-xs text-slate-500">Serapan domisili</span>
+              </div>
+              <div>{areas.map((area) => <AreaRow key={area.name} area={area} />)}</div>
+              <div className="mt-3 flex justify-between gap-3 border-t border-slate-200 pt-3 text-xs text-slate-500"><span>Validasi domisili</span><span className="font-semibold text-[#0b1c30]">100% sesuai KTP</span></div>
             </section>
-
-            <div className="grid gap-4 md:grid-cols-2">
-              <article className="flex flex-col justify-between rounded-2xl border-2 border-amber-300 bg-white p-5 shadow-sm sm:p-6">
-                <div className="flex items-center justify-between gap-3"><div className="flex items-center gap-3"><span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#000b1f] text-amber-300"><Icon name="work" /></span><div><p className="text-[11px] font-bold uppercase tracking-wider text-amber-700">Status Tersalurkan</p><h2 className="text-lg font-bold">Sudah Bekerja</h2></div></div><span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-bold">73,2%</span></div>
-                <div className="my-5"><p className="text-3xl font-extrabold text-amber-600">14.800 <span className="text-base text-[#0b1c30]">Jiwa</span></p><div className="mt-3 h-2 overflow-hidden rounded-full bg-slate-100"><div className="h-full w-[73.2%] rounded-full bg-amber-400" /></div><p className="mt-2 text-xs leading-5 text-slate-500">Tersalurkan ke 185+ mitra industri binaan Polrestabes dengan kontrak kerja resmi.</p></div>
-                <div className="flex items-center justify-between border-t border-slate-100 pt-3 text-xs"><span className="flex items-center gap-1 text-slate-500"><Icon name="shield" className="text-sm" />Kontrak Kerja Sah</span><a href="#industri" className="flex items-center gap-1 font-bold hover:underline">Lihat Sektor <Icon name="arrow_forward" className="text-sm" /></a></div>
-              </article>
-              <article className="flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-                <div className="flex items-center justify-between gap-3"><div className="flex items-center gap-3"><span className="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-slate-500"><Icon name="person_search" /></span><div><p className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Status Pembinaan</p><h2 className="text-lg font-bold">Belum Bekerja</h2></div></div><span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold">26,8%</span></div>
-                <div className="my-5"><p className="text-3xl font-extrabold">5.420 <span className="text-base text-slate-500">Jiwa</span></p><div className="mt-3 h-2 overflow-hidden rounded-full bg-slate-100"><div className="h-full w-[26.8%] rounded-full bg-slate-400" /></div><p className="mt-2 text-xs leading-5 text-slate-500">Dalam proses pembinaan vokasi BLK, pemetaan minat, dan fasilitas SKCK Presisi.</p></div>
-                <div className="flex items-center justify-between border-t border-slate-100 pt-3 text-xs"><span className="flex items-center gap-1 text-slate-500"><Icon name="update" className="text-sm" />Update Berkala</span><Link href="/#pelatihan" className="flex items-center gap-1 font-bold hover:underline">Lihat Pelatihan <Icon name="arrow_forward" className="text-sm" /></Link></div>
-              </article>
-            </div>
-
-            <div className="grid gap-4 lg:grid-cols-2">
-              <section className="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm sm:p-6" aria-labelledby="area-title">
-                <div className="mb-5 flex items-center justify-between gap-3"><h2 id="area-title" className="flex items-center gap-2 text-lg font-bold"><Icon name="location_on" className="text-2xl text-amber-600" />Sebaran Wilayah Polsek</h2><span className="text-xs text-slate-500">Serapan domisili</span></div>
-                <div className="space-y-2">{areas.map((area) => <div key={area.name} className="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-[#f3f6fc] p-3 text-xs"><div><span className="font-bold">{area.name}</span><span className="ml-2 text-slate-500">({area.total} terdata)</span></div><div className="flex items-center gap-2 text-slate-600"><span>{area.employed} bekerja</span><span className="rounded bg-amber-100 px-2 py-1 font-bold text-amber-900">{area.rate}</span></div></div>)}</div>
-                <div className="mt-4 flex justify-between gap-2 border-t border-slate-100 pt-3 text-xs text-slate-500"><span>Validasi Bhabinkamtibmas</span><span className="font-semibold text-[#0b1c30]">100% sesuai domisili KTP</span></div>
-              </section>
-              <section id="industri" className="scroll-mt-24 rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm sm:p-6" aria-labelledby="industry-title">
-                <div className="mb-5 flex items-center justify-between gap-3"><h2 id="industry-title" className="flex items-center gap-2 text-lg font-bold"><Icon name="domain" className="text-2xl text-amber-600" />Sektor Industri</h2><span className="text-xs text-slate-500">14.800 pekerja</span></div>
-                <div className="space-y-5">{industries.map((industry) => <div key={industry.name}><div className="mb-2 flex items-center justify-between gap-2 text-xs"><span className="flex items-center gap-1.5 font-semibold"><Icon name={industry.icon} className="text-sm" />{industry.name} ({industry.rate}%)</span><span className="font-bold">{industry.total}</span></div><div className="h-2 overflow-hidden rounded-full bg-slate-100"><div className={`h-full rounded-full ${industry.color}`} style={{ width: `${industry.rate}%` }} /></div></div>)}</div>
-                <div className="mt-5 flex justify-between border-t border-slate-100 pt-3 text-xs text-slate-500"><span>Mitra resmi</span><span className="font-bold text-amber-700">185+ perusahaan</span></div>
-              </section>
-            </div>
+            <section id="industri" className="scroll-mt-24" aria-labelledby="industry-title">
+              <div className="mb-3 flex items-end justify-between gap-3 border-b-2 border-[#0b1c30] pb-3">
+                <h2 id="industry-title" className="flex items-center gap-2 text-lg font-bold text-[#0b1c30]"><Icon name="domain" className="text-lg text-amber-600" aria-hidden="true" />Sektor industri</h2>
+                <span className="text-xs text-slate-500">14.800 pekerja</span>
+              </div>
+              <div className="space-y-4">{industries.map((industry) => <IndustryBar key={industry.name} industry={industry} />)}</div>
+              <div className="mt-4 flex justify-between gap-3 border-t border-slate-200 pt-3 text-xs text-slate-500"><span>Mitra resmi</span><span className="font-bold text-amber-700">185+ perusahaan</span></div>
+            </section>
           </div>
-        </section>
-      </main>
-      <MainFooter />
-    </>
+        </div>
+      </section>
+    </div>
   );
 }

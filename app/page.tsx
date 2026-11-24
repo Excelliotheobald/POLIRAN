@@ -2,8 +2,6 @@
 
 import { Fragment, useMemo, useState } from "react";
 import type { FormEvent, ReactNode } from "react";
-import MainHeader from "@/components/MainHeader";
-import MainFooter from "@/components/MainFooter";
 
 /* -------------------------------------------------------------------------- */
 /*  Types                                                                     */
@@ -465,8 +463,6 @@ export default function Home() {
 
   return (
     <>
-      <MainHeader />
-
       <main>
         <HeroSection
           query={query}
@@ -481,8 +477,6 @@ export default function Home() {
 
         <ProgramUnggulanSection />
       </main>
-
-      <MainFooter />
     </>
   );
 }

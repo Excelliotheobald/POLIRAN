@@ -10,8 +10,6 @@ import {
   SlidersHorizontal,
   X,
 } from "lucide-react";
-import MainFooter from "@/components/MainFooter";
-import MainHeader from "@/components/MainHeader";
 
 type Employment = "Full Time" | "Part Time";
 type Experience = "Fresh Graduate" | "1–3 Tahun" | ">3 Tahun";
@@ -100,7 +98,6 @@ export default function LowonganPekerjaanPage() {
 
   return (
     <>
-      <MainHeader />
       <main className="min-h-screen bg-surface px-3 pb-10 pt-24 sm:px-6 sm:pb-14 sm:pt-32 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="max-w-2xl">
@@ -170,7 +167,6 @@ export default function LowonganPekerjaanPage() {
           )}
         </div>
       </main>
-      <MainFooter />
     </>
   );
 }

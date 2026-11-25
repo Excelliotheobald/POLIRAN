@@ -18,6 +18,31 @@ function MainHeader() {
   const pathname = usePathname();
   const isHomePage = mounted && pathname === "/";
 
+  // Cek login dari sessionStorage
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Cek sessionStorage dulu (login biasa)
+      const userStr = sessionStorage.getItem("poliranLoggedInUser");
+      if (userStr) {
+        setIsLoggedIn(true);
+        return;
+      }
+      
+      // Cek remember me cookie (30 hari)
+      const cookies = document.cookie.split("; ");
+      const rememberMeCookie = cookies.find(row => row.startsWith("poliran_remember_me="));
+      if (rememberMeCookie) {
+        // Kalau ada cookie remember me, coba ambil user dari localStorage
+        const savedUser = localStorage.getItem("poliranLoggedInUser");
+        if (savedUser) {
+          sessionStorage.setItem("poliranLoggedInUser", savedUser);
+          setIsLoggedIn(true);
+        }
+      }
+    }
+  }, []);
+
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
@@ -70,8 +95,8 @@ function MainHeader() {
                   isActive
                     ? "text-white font-semibold"
                     : isHomePage
-                    ? "text-slate-200 hover:text-amber-400"
-                    : "text-slate-200 hover:text-amber-400"
+                      ? "text-slate-200 hover:text-amber-400"
+                      : "text-slate-200 hover:text-amber-400"
                 }`}
                 href={link.href}
               >
@@ -83,27 +108,46 @@ function MainHeader() {
 
         {/* Right Action CTA Buttons */}
         <div className="flex items-center space-x-3.5">
-          <Link
-            className={`px-5 py-2 text-xs font-semibold rounded-full transition-all duration-150 ${
-              isHomePage
-                ? "text-white border border-white/80 hover:bg-white/10 hover:border-white"
-                : "text-white border border-white/30 hover:bg-white/10 hover:border-white/50"
-            }`}
-            href="/login"
-          >
-            Masuk
-          </Link>
-          <Link
-            className={`px-5 py-2 text-xs font-semibold text-white rounded-full shadow-md flex items-center space-x-1.5 hover:shadow-lg transition-all duration-150 ${
-              isHomePage
-                ? "bg-[#0b172a] hover:bg-[#07101e] border border-slate-700"
-                : "bg-white/10 hover:bg-white/20 border border-white/30"
-            }`}
-            href="/register"
-          >
-            <i className="fa-solid fa-user-plus text-[11px] text-white" />
-            <span>Daftar</span>
-          </Link>
+          {isLoggedIn ? (
+            // Tombol Logout saat sudah login
+            <button
+              className={`px-5 py-2 text-xs font-semibold rounded-full transition-all duration-150 bg-white/10 hover:bg-white/20 border border-white/30 hover:border-white/50 text-white`}
+              onClick={() => {
+                // Hapus session, local storage, dan cookie remember me
+                sessionStorage.removeItem("poliranLoggedInUser");
+                localStorage.removeItem("poliranLoggedInUser");
+                document.cookie = `poliran_remember_me=; max-age=0; path=/`;
+                window.location.href = "/login";
+              }}
+            >
+              Logout
+            </button>
+          ) : (
+            // Tombol Masuk & Daftar saat belum login
+            <>
+              <Link
+                className={`px-5 py-2 text-xs font-semibold rounded-full transition-all duration-150 ${
+                  isHomePage
+                    ? "text-white border border-white/80 hover:bg-white/10 hover:border-white"
+                    : "text-white border border-white/30 hover:bg-white/10 hover:border-white/50"
+                }`}
+                href="/login"
+              >
+                Masuk
+              </Link>
+              <Link
+                className={`px-5 py-2 text-xs font-semibold text-white rounded-full shadow-md flex items-center space-x-1.5 hover:shadow-lg transition-all duration-150 ${
+                  isHomePage
+                    ? "bg-[#0b172a] hover:bg-[#07101e] border border-slate-700"
+                    : "bg-white/10 hover:bg-white/20 border border-white/30"
+                }`}
+                href="/register"
+              >
+                <i className="fa-solid fa-user-plus text-[11px] text-white" />
+                <span>Daftar</span>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>

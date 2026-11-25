@@ -3,6 +3,7 @@
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { toast } from "sonner";
 import {
   User,
   Lock,
@@ -19,15 +20,60 @@ export default function LoginPelamarPage() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(true);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [loginError, setLoginError] = useState<string | null>(null);
 
   const togglePassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    router.push("/dashboard");
+    setLoginError(null);
+
+    try {
+      const res = await fetch("/api/login/pelamar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          identifier,
+          password,
+          rememberMe,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setLoginError(data.error || "Login gagal. Silakan coba lagi.");
+        return;
+      }
+
+      if (data.user) {
+        if (rememberMe) {
+          // Simpan ke localStorage untuk 30 hari
+          localStorage.setItem("poliranLoggedInUser", JSON.stringify(data.user));
+        }
+        sessionStorage.setItem("poliranLoggedInUser", JSON.stringify(data.user));
+      }
+
+      // Set remember me cookie if checked
+      if (rememberMe) {
+        document.cookie = `poliran_remember_me=yes; max-age=60*60*24*30; path=/`;
+      } else {
+        // Clear remember me cookie and localStorage
+        document.cookie = `poliran_remember_me=; max-age=0; path=/`;
+        localStorage.removeItem("poliranLoggedInUser");
+      }
+
+      toast.success("Anda berhasil login!");
+      router.push(data.redirectUrl || "/");
+    } catch (err) {
+      console.error("Login fetch error:", err);
+      setLoginError("Terjadi kesalahan jaringan. Silakan coba lagi.");
+    }
   };
 
   return (
@@ -119,8 +165,14 @@ export default function LoginPelamarPage() {
                 </a>
               </div>
 
+              {loginError && (
+                <div className="rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+                  {loginError}
+                </div>
+              )}
+
               <button
-                className="w-full flex items-center justify-center space-x-2 bg-[#132238] hover:bg-[#000b1f] text-white py-4 px-6 rounded-lg text-sm sm:text-base font-medium shadow-md hover:shadow-lg active:scale-[0.99] transition-all duration-200"
+                className="w-full flex items-center hover:cursor-pointer justify-center space-x-2 bg-[#132238] hover:bg-[#000b1f] text-white py-4 px-6 rounded-lg text-sm sm:text-base font-medium shadow-md hover:shadow-lg active:scale-[0.99] transition-all duration-200"
                 type="submit"
               >
                 <span>Masuk Sekarang</span>
